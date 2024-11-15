@@ -22620,22 +22620,6 @@
         ]
     },
     {
-        "id": "d3513fdd01e6b4cf",
-        "type": "debug",
-        "z": "ecb17089.54a8f",
-        "name": "debug 4",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 380,
-        "y": 440,
-        "wires": []
-    },
-    {
         "id": "e66874baf6cdd96e",
         "type": "websocket in",
         "z": "ecb17089.54a8f",
@@ -22697,22 +22681,6 @@
         "client": "",
         "x": 1120,
         "y": 180,
-        "wires": []
-    },
-    {
-        "id": "713e70df6679b84a",
-        "type": "debug",
-        "z": "ecb17089.54a8f",
-        "name": "debug 5",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 1000,
-        "y": 220,
         "wires": []
     },
     {
@@ -22907,27 +22875,9 @@
         "y": 760,
         "wires": [
             [
-                "http_request",
-                "7139103807681e37"
+                "http_request"
             ]
         ]
-    },
-    {
-        "id": "7139103807681e37",
-        "type": "debug",
-        "z": "ecb17089.54a8f",
-        "name": "debug 6",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "true",
-        "targetType": "full",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 820,
-        "y": 780,
-        "wires": []
     },
     {
         "id": "c0a8d495edb8eff4",
