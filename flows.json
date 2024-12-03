@@ -151,6 +151,14 @@
         "env": []
     },
     {
+        "id": "b1bc797994f72646",
+        "type": "tab",
+        "label": "フロー 2",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
         "id": "0bd82932d8e5f14d",
         "type": "group",
         "z": "2618fdb18c108f25",
@@ -23645,5 +23653,322 @@
                 "917a8f1c1070c91a"
             ]
         ]
+    },
+    {
+        "id": "58e5b0e150a9baf6",
+        "type": "template",
+        "z": "b1bc797994f72646",
+        "name": "html",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "<!DOCTYPE html>\n<html lang=\"ja\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>各報告書フォーム・報告書一覧</title>\n    <link href=\"/bootstrap-5.0.2-dist/css/bootstrap.min.css\" rel=\"stylesheet\" type=\"text/css\">\n    <style>\n     {{{css.cssfile}}}\n    </style>  \n    \n</head>\n\n<body>\n\n  <!-- 共通ヘッダー -->\n  {{{html.header}}}\n  \n  <!-- メインコンテンツ -->\n  <div id=\"content\">\n    {{{html.main}}}\n  </div>\n  \n  <!-- スクリプトの読み込み -->\n  <script src=\"/bootstrap-5.0.2-dist/js/bootstrap.bundle.min.js\"></script>\n  <script>\n    {{{js.javascriptfile}}}\n  </script>  \n\n</body>\n</html>\n",
+        "output": "str",
+        "x": 610,
+        "y": 140,
+        "wires": [
+            [
+                "1490b708f8bc5680"
+            ]
+        ]
+    },
+    {
+        "id": "34599b13b446eba5",
+        "type": "template",
+        "z": "b1bc797994f72646",
+        "name": "不適合報告書",
+        "field": "html.main",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "<div id=\"container\">\n\n  <div id=\"mistake_min\">\n\n    <h2 id=\"tooltip1\" title=\"mocthisapoに移管\" style=\"display: flex; align-items: center; justify-content: space-between;\">\n      <span>不適合報告書</span>\n      <button type=\"button\" class=\"btn btn-primary ms-2 mb-1\" id=\"mt-add\" data-bs-toggle=\"modal\" data-bs-target=\"#staticBackdrop\">新規登録</button>\n    </h2>\n    <!-- Modal -->\n    <div class=\"modal fade\" id=\"staticBackdrop\" data-bs-backdrop=\"static\" data-bs-keyboard=\"false\" tabindex=\"-1\" aria-labelledby=\"staticBackdropLabel\" aria-hidden=\"true\">\n      <div class=\"modal-dialog modal-xl\">\n        <div class=\"modal-content\">\n          <div class=\"modal-header\">\n            不適合関連記入フォーム\n          </div>\n\n          <div class=\"modal-body\">\n\n            <form action mehod=\"post\" enctype=\"multipart/form-data\" id=\"mistakeForm\">\n\n              <input type=\"hidden\" name=\"mistake_create\" value=\"1\">\n              <table id=\"table_form\">\n                <tbody>\n                  <!-- 種別と担当者　-->\n                  <tr>\n                    <th width=\"15%\">種別</th>\n                    <td class=\"relative\">\n                      <select name=\"mt_type\" id=\"mt_type\">\n                        <option value=\"\">選択してください</option>\n                        <option value=\"不適合\">不適合</option>\n                        <option value=\"クレーム\">クレーム</option>\n                        <option value=\"是正\">是正</option>\n                        <option value=\"顧客\">顧客</option>\n                      </select>\n                      <span class=\"error_msg\" id=\"error_mt_type\"></span>\n                    </td>\n                    <th>担当者</th>\n                      <td class=\"relative\">\n                        <input type=\"text\" name=\"mt_manager\" id=\"mt_manager\">\n                        <span class=\"error_msg\" id=\"error_mt_manager\"></span>\n                      </td>\n                  </tr>\n\n                  <!-- 発行日と回答期限　-->\n                  <tr>\n                    <th width=\"15%\">発行日</th>\n                    <td class=\"relative\">\n                      <input type=\"date\" name=\"mt_date\" id=\"mt_date\">\n                      <span class=\"error_msg\" id=\"error_mt_date\"></span>\n                    </td>\n                    <th width=\"15%\">回答期限</th>\n                    <td class=\"relative\">\n                      <input type=\"date\" name=\"mt_answer_date\" id=\"mt_answer_date\">\n                      <span class=\"error_msg\" id=\"error_mt_answer_date\"></span>\n                    </td>\n                  </tr>\n              \n                  <!-- 品番と品名　-->\n                  <tr>\n                    <th>品番</th>\n                    <td class=\"relative\">\n                      <input type=\"text\" name=\"mt_product_code\" id=\"mt_product_code\">\n                      <span class=\"error_msg\" id=\"error_mt_product_code\"></span>\n                    </td>\n                    <th>品名</th>\n                    <td class=\"relative\">\n                      <input type=\"text\" name=\"mt_product_name\" id=\"mt_product_name\">\n                      <span class=\"error_msg\" id=\"error_mt_product_name\"></span>\n                    </td>\n                  </tr>\n \n                  <!-- 数量　-->\n                  <tr>\n                    <th>数量</th>\n                    <td class=\"relative\">\n                      <input type=\"number\" name=\"mt_pcs\" id=\"mt_pcs\">\n                      <span class=\"error_msg\" id=\"error_mt_pcs\"></span>\n                    </td>\n                    <td colspan=\"2\"></td>\n                  </tr>\n\n                  <!-- 顧客名と発見部門　-->\n                  <tr>\n                    <th>顧客名</th>\n                    <td class=\"relative\">\n                      <select name=\"mt_client\" id=\"mt_client\">\n                        <option value=\"\">選択してください</option>\n                    </select>\n                    <span class=\"error_msg\" id=\"error_mt_client\"></span>\n                    </td>\n                    <th>発見部門</th>\n                    <td class=\"relative\">\n                      <select name=\"mt_discovery_unit\" id=\"mt_discovery_unit\">\n                        <option value=\"\">選択してください</option>\n                      </select>\n                      <span class=\"error_msg\" id=\"error_mt_client\"></span>\n                    </td>\n                  </tr>\n\n                  <!-- 原因部門と原因工程　-->\n                  <tr>\n                    <th>原因部門</th>\n                    <td class=\"relative\">\n                      <select name=\"mt_source_unit\" id=\"mt_source_unit\">\n                        <option value=\"\">選択してください</option>\n                      </select>\n                      <span class=\"error_msg\" id=\"error_mt_client\"></span>\n                    </td>\n                    <th>原因工程</th>\n                    <td class=\"relative\">\n                      <select name=\"mt_source_process\" id=\"mt_source_process\">\n                        <option value=\"\">選択してください</option>\n                        <option value=\"抜き（NC）\">抜き（NC）</option>\n                        <option value=\"抜き（プレス）\">抜き（プレス）</option>\n                        <option value=\"曲げ\">曲げ</option>\n                        <option value=\"切断\">切断</option>\n                        <option value=\"バリ取り\">バリ取り</option>\n                        <option value=\"溶接\">溶接</option>\n                        <option value=\"組立\">組立</option>\n                        <option value=\"セット\">セット</option>\n                        <option value=\"梱包\">梱包</option>\n                        <option value=\"リフト操作\">リフト操作</option>\n                        <option value=\"検査\">検査</option>\n                        <option value=\"その他\">その他</option>\n                      </select>\n                      <span class=\"error_msg\" id=\"error_mt_client\"></span>\n                    </td>\n                  </tr>\n\n                  <!-- 不具合内容　-->\n                  <tr>\n                    <th>不具合内容</th>\n                    <td colspan=\"3\" class=\"relative\">\n                      <textarea name=\"mt_content\"></textarea>\n                    </td>\n                  </tr>\n\n                </tbody>  \n\n              </table>\n\n            </form>\n\n          </div>\n\n          <div class=\"modal-footer\">\n            <button type=\"button\" class=\"btn btn-primary\" id=\"new\">新規登録</button>\n          </div>\n\n        </div> \n\n      </div>\n\n    </div>\n\n    <ul class=\"nav nav-tabs\">\n      <li class=\"nav-item\">\n        <a class=\"nav-link active\" href=\"#\">全表示</a>\n      </li>\n      <li class=\"nav-item\">\n        <a class=\"nav-link\" href=\"#\">不適合</a>\n      </li>\n      <li class=\"nav-item\">\n        <a class=\"nav-link\" href=\"#\">クレーム</a>\n      </li>\n      <li class=\"nav-item\">\n        <a class=\"nav-link\" href=\"#\">是正</a>\n      </li>\n      <li class=\"nav-item\">\n        <a class=\"nav-link\" href=\"#\">顧客</a>\n      </li>\n\n      <li class=\"nav-item ms-auto\">\n      <form class=\"d-flex align-items-center\">\n        <input class=\"form-control me-2\" type=\"search\" placeholder=\"原因部門から\" aria-label=\"search\" value=\"原因部門から\">\n        <button class=\"btn btn-outline-success\" type=\"submit\">検索</button>\n      </form>\n    </li>\n\n      \n      \n    </ul>\n\n    \n    \n  </div>\n</div>\n\n",
+        "output": "str",
+        "x": 460,
+        "y": 140,
+        "wires": [
+            [
+                "58e5b0e150a9baf6"
+            ]
+        ]
+    },
+    {
+        "id": "1490b708f8bc5680",
+        "type": "http response",
+        "z": "b1bc797994f72646",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 730,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "4187a5e9532cc59f",
+        "type": "link call",
+        "z": "b1bc797994f72646",
+        "name": "javascript",
+        "links": [
+            "a26a3135ca8cc9e8"
+        ],
+        "linkType": "static",
+        "timeout": "30",
+        "x": 580,
+        "y": 80,
+        "wires": [
+            [
+                "34599b13b446eba5"
+            ]
+        ]
+    },
+    {
+        "id": "ee3e6eed5004caaf",
+        "type": "link call",
+        "z": "b1bc797994f72646",
+        "name": "css",
+        "links": [
+            "6572161d41c11a5b"
+        ],
+        "linkType": "static",
+        "timeout": "30",
+        "x": 410,
+        "y": 80,
+        "wires": [
+            [
+                "4187a5e9532cc59f"
+            ]
+        ]
+    },
+    {
+        "id": "b13251cd244a4466",
+        "type": "link call",
+        "z": "b1bc797994f72646",
+        "name": "header",
+        "links": [
+            "0bee789de6a028d7"
+        ],
+        "linkType": "static",
+        "timeout": "30",
+        "x": 260,
+        "y": 80,
+        "wires": [
+            [
+                "ee3e6eed5004caaf"
+            ]
+        ]
+    },
+    {
+        "id": "572bbfa8308b71f9",
+        "type": "http in",
+        "z": "b1bc797994f72646",
+        "name": "",
+        "url": "/mistake",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 110,
+        "y": 80,
+        "wires": [
+            [
+                "b13251cd244a4466"
+            ]
+        ]
+    },
+    {
+        "id": "0bee789de6a028d7",
+        "type": "link in",
+        "z": "b1bc797994f72646",
+        "name": "header",
+        "links": [],
+        "x": 195,
+        "y": 200,
+        "wires": [
+            [
+                "c3f9d1c70dc774f0"
+            ]
+        ]
+    },
+    {
+        "id": "dc4b09c33cca9679",
+        "type": "link out",
+        "z": "b1bc797994f72646",
+        "name": "link out 11",
+        "mode": "return",
+        "links": [],
+        "x": 445,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "9862a9d887bc9415",
+        "type": "template",
+        "z": "b1bc797994f72646",
+        "name": "javascript",
+        "field": "js.javascriptfile",
+        "fieldType": "msg",
+        "format": "javascript",
+        "syntax": "mustache",
+        "template": "// 発行日と回答期限を設定する関数\nfunction setDefaultDates() {\n    const today = new Date();\n    const tenDaysLater = new Date();\n    tenDaysLater.setDate(today.getDate() + 10);\n\n    // yyyy-MM-dd形式にフォーマットする関数\n    const formatDate = (date) => {\n        const yyyy = date.getFullYear();\n        const mm = String(date.getMonth() + 1).padStart(2, '0');\n        const dd = String(date.getDate()).padStart(2, '0');\n        return `${yyyy}-${mm}-${dd}`;\n    };\n\n    // 発行日と回答期限のデフォルト値を設定\n    document.getElementById('mt_date').value = formatDate(today);\n    document.getElementById('mt_answer_date').value = formatDate(tenDaysLater);\n}\n\nasync function populateSelectBox(apiUrl, selectId) {\n    try {\n        const response = await fetch(apiUrl);\n        if (!response.ok) {\n            throw new Error(`HTTPエラー: ${response.status}`);\n        }\n        const data = await response.json();\n\n        // セレクトボックスの要素を取得\n        const selectBox = document.getElementById(selectId);\n\n        // 初期値を設定\n        selectBox.innerHTML = '<option value=\"\">選択してください</option>';\n\n        // `selectId` に基づいてカラムを切り替える\n        data.forEach(item => {\n            const option = document.createElement('option');\n\n            if (selectId === 'mt_client') {\n                option.value = item.client_id; // 顧客IDをvalueに設定\n                option.textContent = item.client_name; // 顧客名を表示\n            } else if (selectId === 'mt_discovery_unit' || selectId === 'source_unit'){\n                option.value = item.unit_id; // 部門IDをvalueに設定\n                option.textContent = `【${item.unit_type}】 ${item.unit_name}`; \n            }\n\n            selectBox.appendChild(option);\n\n            // 固定値のオプションを追加\n            if (selectId === 'mt_client') {\n                const fixedOptions = [\n                    { value: '納入時', text: '【顧客】納入時' },\n                    { value: '市場', text: '【顧客】市場' }\n                ];\n\n                fixedOptions.forEach(fixed => {\n                    const option = document.createElement('option');\n                    option.value = fixed.value;\n                    option.textContent = fixed.text;\n                    selectBox.appendChild(option);\n                });\n            }    \n\n        });\n    } catch (error) {\n        console.error('エラー:', error);\n    }\n}\n\ndocument.addEventListener('DOMContentLoaded', function () {\n\n    populateSelectBox('/get-options', 'mt_client');\n    populateSelectBox('/get-units', 'mt_discovery_unit');\n\n    document.querySelectorAll('.nav-link').forEach(tab => {\n        tab.addEventListener('click', async () => {\n            // タブのアクティブ状態を切り替え\n            document.querySelectorAll('.nav-link').forEach(t => t.classList.remove('active'));\n            tab.classList.add('active');\n\n            // APIコール\n            const sort = tab.dataset.sort;\n            const response = await fetch(`/api/mistake_list?sort=${sort}`);\n            const html = await response.text();\n\n            // 結果を表示\n            document.getElementById('result').innerHTML = html;\n        });\n    });\n\n});\n",
+        "output": "str",
+        "x": 320,
+        "y": 360,
+        "wires": [
+            [
+                "d74e5c2a2705a650"
+            ]
+        ]
+    },
+    {
+        "id": "c3f9d1c70dc774f0",
+        "type": "template",
+        "z": "b1bc797994f72646",
+        "name": "header",
+        "field": "html.header",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "<header>\n  <nav class=\"navbar navbar-expand-md custom-navbar mb-4 fixed-top\">\n    <div class=\"container-fluid\">\n      <span class=\"navbar-brand mb-0 h1\">\n        <img src=\"/ktrg-logo.png\" alt=\"KTRG\" width=\"30\" height=\"30\">\n      </span>\n      <button class=\"navbar-toggler\" type=\"button\" data-bs-toggle=\"collapse\" data-bs-target=\"#navbarNav\" aria-controls=\"navbarNav\" aria-expanded=\"false\" aria-label=\"Toggle navigation\">\n        <span class=\"navbar-toggler-icon custom-toggler-icon\"></span>\n      </button>\n      <div class=\"collapse navbar-collapse\" id=\"navbarNav\">\n        <ul class=\"navbar-nav me-auto mb-2 mb-md-0\">\n          <li class=\"nav-item\">\n            <a class=\"nav-link white-text\" href=\"/index\">メインメニュー</a>\n          </li>\n        </ul>\n      </div>\n    </div>\n  </nav>\n</header>\n\n",
+        "output": "str",
+        "x": 320,
+        "y": 200,
+        "wires": [
+            [
+                "dc4b09c33cca9679"
+            ]
+        ]
+    },
+    {
+        "id": "9a059c0c30ad2458",
+        "type": "template",
+        "z": "b1bc797994f72646",
+        "name": "css",
+        "field": "css.cssfile",
+        "fieldType": "msg",
+        "format": "css",
+        "syntax": "mustache",
+        "template": "body {\nwidth: 100%;\nmargin: 0;\ncolor: #373737;\nword-break: break-all;\nword-wrap: break-word;\nposition: relative;\n}\n\n#container {\nwidth: 100%;\nmax-width: 1200px;\npadding: 50px 20px 20px 20px;\n}\n\n.modal {\n    margin-top: calc(28px + 10px); /* ヘッダー高さを考慮 */\n}\n\n.nav-tabs .nav-link {\n    display: flex;\n    align-items: center;\n}\n.nav-item .form-control, \n.nav-item .btn {\n    height: calc(2.25rem + 2px); /* Bootstrapのデフォルト高さ */\n    padding: 0.375rem 0.75rem; /* インプットの高さと余白を調整 */\n}\n\n.custom-input {\n  width: 75%;\n  color: gray;\n}\n\n/* ヘッダーの高さに合わせた余白を設定 */\n.header-space {\n    height: 28px; \n}\n\n.custom-navbar {\n    background-color: #033f66;\n    color: white;\n}\n\n\n.navbar-nav .nav-link.white-text {\n    color: white;\n}\n\n\n\na,a:visited {\ncolor: #4478ff;\n}\n\na:hover {\ncolor: #ff6000;\n}\n\na img {\nborder-style: none;\n}\n\nimg {\nheight: auto;\nvertical-align: top;\n}\n\nimg[alt] {\nfont-size: 10px;\n}\n\np {\nline-height: 1.7;\nmargin: 0;\npadding: 10px;\nfont-size: 15px;\n}\n\ndiv {\nbox-sizing: border-box;\n}\n\nul,ol {\nlist-style: none;\noverflow: hidden;\nmargin: 0;\npadding: 0;\n}\n\nh2 {\nmargin: 40px 0;\npadding: 3px;\nborder-bottom: solid 5px #4478ff;\nposition: relative;\nfont-size: 25px;\ncolor: #373737;\nbackground: none;\nborder-left: none;\nline-height: 1.1;\n}\n\nh2:after {\nposition: absolute;\ncontent: \"\";\ndisplay: block;\nborder-bottom: solid 5px #c1c1c1;\nright: 0;\nbottom: -5px;\nwidth: 80%;\nborder-image: linear-gradient(to left, #ffffff, #ebebeb);\nborder-image-slice: 1;\nline-height: 1;\n}\n\nh2 span {\noverflow: hidden;\npadding: 0 40px 0 0;\nbackground: url(../img_material/icon_question.png) no-repeat 100% 30% / 25px\n}\n\ntable {\nwidth: 100%;\nmargin: 0 0 10px 0;\n\nborder-collapse: collapse;\nfont-size: 15px;\n}\n\nth {\npadding: 5px 10px;\nborder: solid 1px #ededed;\nbackground: #f7f7f7;\n}\n\ntd {\ntext-align: center;\npadding: 10px;\nborder: solid 1px #ededed;\n}\n\ntd a {\ndisplay: block;\nfont-weight: 600;\n}\n\n.success_msg {\nmargin: 20px 0;\npadding: 5px 20px;\nbackground-color: #e6ffe8;\nborder: solid 2px #00b52b;\nborder-radius: 5px;\ncolor: #007800;\ndisplay: inline-block;\n\nanimation-name:fadeInAnime;\nanimation-duration:1s;\nanimation-fill-mode:forwards;\nopacity:0;\n}\n\n.notice_msg {\nmargin: 20px;\npadding: 5px 20px;\nbackground-color: #fff4f4;\nborder: solid 2px #ff9999;\nborder-radius: 5px;\ncolor: #ff4e4e;\ndisplay: inline-block;\n\nanimation-name:fadeInAnime;\nanimation-duration:1s;\nanimation-fill-mode:forwards;\nopacity:0;\n}\n\n@keyframes fadeInAnime{\n  from {\n    opacity: 0;\n  }\n\n  to {\n    opacity: 1;\n  }\n}\n\n.flex {\ndisplay: flex;\n}\n\n.left {\ntext-align: left !important;\n}\n\n.img_link {\npadding: 0 20px 0 0;\nbackground: url(../img_material/icon_img.png) no-repeat 100% 50% / 13px;\ncursor: pointer;\n}\n\n.icon_link {\npadding: 0 0 0 20px;\nbackground: url(../img_material/icon_link.png) no-repeat 0% 50% / 13px;\n}\n\n.icon_cross {\npadding: 0 0 0 17px;\nbackground: url(../img_material/icon_cross.png) no-repeat 0% 50% / 13px;\n}\n\n/*************************************\njquery ui\n*************************************/\n.ui-tooltip {\nbackground-color: rgb(0 0 0 / 70%) !important;\nborder: none !important;\ncolor: white !important;\nfont-size: 13px !important;\n}\n\n.drag_num {\nwidth: 20px;\nheight: 20px;\nfont-size: 15px;\nborder: solid 1px;\nborder-radius: 100%;\ndisplay: block;\ntext-align: center;\n}\n\n.ui-corner-all {\nfont-size: 13px !important;\n}\n\n.ui-helper-hidden-accessible {\nposition: unset;\n}\n\n.ui-tabs .ui-tabs-nav .ui-tabs-anchor {\npadding: 10px 25px;\n}\n\n/* 図面のプラスマイナス  */\n.leaflet-control-zoom {\nopacity: 0.5;\n}\n\n.ui-widget-overlay {\nbackground: black;\nopacity: 0.5;\n}\n/*************************************\nheader、nav\n*************************************/\nheader {\nwidth: 100%;\nposition: fixed;\nz-index: 10000;\n}\n\n#outside nav {\nbackground: repeating-linear-gradient(-45deg, #000000 0, #000000 20px, #353535 20px, #353535 40px);\n}\n\nnav {\nwidth: 100%;\nheight: auto;\npadding: 5px;\nbackground-color: #212121;\nposition: fixed;\nbox-shadow: 0 1px 6px rgb(97 100 109 / 28%);\noverflow-x: auto;\nposition: relative;\n}\n\n#nav_area {\ndisplay: table;\n}\n\n#nav_logo {\nwidth: 45px;\npadding: 0 10px;\ndisplay: table-cell;\nvertical-align: middle;\n\n}\n\n#nav_logo img {\nwidth: 100%;\n}\n\n#nav_scroll {\ndisplay: table-cell;\nvertical-align: middle;\n}\n\nnav ul {\nwidth: 100%;\ndisplay: table;\nposition: relative;\n}\n\nnav li {\npadding: 0;\nmargin: 0;\ntext-align: center;\ndisplay: table-cell;\nvertical-align: middle;\nborder-right: solid 2px #474747;\nwhite-space: nowrap;\n}\n\nnav li a {\nmargin: 0;\npadding: 8px;\ncolor: #FFFFFF;\nfont-size: 12px;\ntext-decoration: none;\ndisplay: block;\nposition: relative;\n}\n\na.new_mark::after {\nposition: absolute;\ncontent: '';\nwidth: 16px;\nheight: 7px;\ntop: 0;\nright: 10px;\nbackground: url(../img_material/icon_new.gif)  no-repeat 0 / 16px\n}\n\n\nnav li a:hover, nav li a:visited {\ncolor: #FFFFFF;\n}\n\nnav li a span {\npadding: 5px;\n}\n\nnav li span:hover {\nborder-bottom: solid 2px #ffffff;\n}\n\nli.active {\nbackground-color: #4478ff;\nborder-radius: 5px;\n}\n\n#nav_note {\nposition: absolute;\ntop: 0;\nright: 0;\npadding: 0 10px 0 0;\ncolor: white;\n}\n\n#nav_note p {\npadding-left: 30px;\nfont-size: 14px;\nbackground: url(../img_material/icon_anno.png) no-repeat 0 50% / 20px;\n}\n\n/*************************************\nbreadcrumbs\n*************************************/\n.breadcrumbs {\npadding: 10px;\nfont-size: 15px;\n\n}\n\n.breadcrumbs li {\nfloat: left;\nposition: relative;\nmargin: 0;\npadding: 0 5px;\nline-height: 2;\n}\n\n.breadcrumbs li a {\npadding: 0 30px 0 10px;\ndisplay: block;\n}\n\n.breadcrumbs li a.active {\nbackground-color: #4478ff;\ncolor: white;\ntext-decoration: none;\nborder-radius: 3px;\n}\n\n.breadcrumbs li a::after {\ncontent: '';\nwidth: 5px;\nheight: 5px;\nborder: 0px;\nborder-top: solid 2px #b5b5b5;\nborder-right: solid 2px #b5b5b5;\n-ms-transform: rotate(45deg);\n-webkit-transform: rotate(45deg);\ntransform: rotate(45deg);\nposition: absolute;\ntop: 40%;\nright: 15px;\nmargin-top: -2px;\n}\n\n\n/*************************************\nform\n*************************************/\n\nlabel {\ndisplay: block;\nfont-size: 15px;\nfont-weight: 600;\n}\n\nselect {\nwidth: 300px;\npadding: 10px;\n}\n\ninput[type=\"text\"].small {\nwidth: 200px;\npadding: 10px;\n}\n\ninput[type=\"text\"].medium, input[type=\"date\"].medium {\nwidth: 400px;\npadding: 10px;\n}\n\ninput[type=\"text\"].large {\nwidth: 700px;\npadding: 10px;\n}\n\ninput[type=\"submit\"],input[type=\"button\"],.btn_common {\nmargin: 15px 0;\npadding: 10px 20px;\nbackground-color: #f5f5f5;\nborder: solid 2px #a6a6a6;\nborder-radius: 5px;\ncolor: #1160ff;\nfont-size: 15px;\nfont-weight: 500;\ncursor: pointer;\n}\n\ninput[type=\"submit\"]:hover,input[type=\"button\"]:hover.btn_common:hover {\nopacity: 0.6;\ncursor: pointer;\n}\n\n.update_form input[type=\"text\"],.update_form select,.update_form input[type=\"number\"],.update_form input[type=\"date\"],.update_form textarea {\nborder: solid 3px orange !important;\n}\n\n.update_form textarea {\nwidth: 400px;\nheight: 100px;\nborder: solid 3px orange;\n}\n\n.error_msg {\ncolor: red !important;\nposition: unset !important;\nbackground-color: unset !important;\n}\n\n.red {\ncolor: red !important;\n}\n\n.red_thin {\ncolor: #ffb3cd;\n}\n\n.blue {\ncolor: blue;\n}\n\n.blue_thin {\ncolor: #4478ff;\n}\n\n.green {\ncolor: green;\n}\n\n.orange {\ncolor: orange !important;\n}\n\n.relative {\nposition: relative;\n}\n\n.relative.img_approval:after {\ncontent: \"\";\nwidth: 70px;\nheight: 70px;\nmargin: auto;\nposition: absolute;\nbackground:  url(\"../img_material/approval.png\") 0 / 100% no-repeat;\ntop: 0;\nright: 0;\nbottom: 0;\nleft: 0;\n}\n\n.relative img+span {\nposition: absolute;\ntop: 0;\nleft: 0;\npadding: 2px 8px;\nz-index: 1;\nbackground-color: rgb(0 0 0 / 60%);\nfont-size: 13px;\ncolor: white;\n}\n\n/*************************************\nlogin\n*************************************/\n#login {\nwidth: 300px;\nmargin: 100px auto;\npadding: 20px;\nbox-shadow: 0 1px 6px rgba(97, 100, 109, 0.28);\n}\n\n.input_login {\nwidth: 100%;\nmargin: 0 0 10px 0;\npadding: 10px;\nbox-sizing: border-box;\n}\n\n#submit_login {\nwidth: 100%;\nmargin: 30px 0 0 0;\npadding: 10px;\nbackground-color: #1160ff;\ncolor: white;\nborder: none;\nborder-radius: 0;\n}\n\n\n/*************************************\nchat\n*************************************/\n#chat {\nwidth: 800px;\n}\n\n#chat .login_text {\nfont-size: 13px;\nmargin: 0;\npadding: 0 0 0 10px;\n}\n\n#chat_area {\nmargin: 0 0 20px 0;\npadding: 20px;\nbackground-color: #f5f5f5;\nbox-sizing: border-box;\nborder: solid 1px #ededed;\nborder-radius: 7px;\nbox-shadow: 0 1px 6px rgba(97, 100, 109, 0.28);\n}\n\n#chat_area textarea {\nwidth: 100%;\nheight: 200px;\npadding: 10px;\nborder: solid 2px #ededed;\nline-height: 1.6;\nborder-radius: 5px;\nbox-sizing: border-box;\n}\n\n#img_upload_area p {\nfont-size: 15px;\nfont-weight: 600;\n}\n\ninput[type=\"file\"] {\nwidth: 100%;\npadding: 10px 0;\n}\n\n::-webkit-file-upload-button {\nmargin: 0 10px 0 0;\npadding: 5px;\nbackground-color: #EBEBEB;\nborder: solid 2px #C0C0C0;\n}\n\n::-webkit-file-upload-button:hover {\nopacity: 0.6;\ncursor: pointer;\n}\n\n#chat_error_msg {\npadding: 3px;\n}\n\n#chat_error_msg span {\nfont-size: 15px;\ncolor: red;\n}\n\n.btn_wall {\n}\n\n.btn_wall button {\npadding: 15px 20px;\nbackground-color: #4478ff;\nborder: solid 2px #0030ff;\ncolor: white;\nborder-radius: 10px;\n}\n\n\n\n.btn_wall button:hover {\nopacity: 0.6;\ncursor: pointer;\n}\n\n\n#chat_post {\nmargin: 15px 0 0 0;\n}\n\n#chat_list ul {\n\n}\n\n#chat_list li {\nmargin: 10px;\npadding: 15px;\nbox-shadow: 0 1px 6px rgba(97, 100, 109, 0.28);\n}\n\n#chat_list li p {\npadding: 5px;\nfont-size: 14px;\n}\n\n#chat_list li img {\ndisplay: block;\nmargin: 20px auto;\n}\n\n.response {\nbackground-color: #f7f6ff;\n}\n\n.response_text {\ncolor: green;\n}\n\n.resNo {\ncolor: #808080;\nfont-weight: 700;\n}\n\n.chat_name {\npadding: 0 10px;\ncolor: #6363ff;\n}\n\n.chat_name.executive {\ncolor: #ff7676;\n}\n\n\n.chat_list_footer {\ntext-align: right;\npadding: 15px 5px 0 5px;\n}\n\n.chat_list_footer span {\npadding: 0 10px;\nline-height: 1.6;\nfont-size: 14px;\ncolor: #949292;\n}\n\n.reply {\ndisplay: inline-block;\npadding: 5px 10px 5px 30px;\nborder: solid 1px #8a8a8a;\nbackground: url(../img_material/icon_reply.png) no-repeat 10px 50%;\nbackground-size: 13px;\nborder-radius: 2px;\nfont-size: 13px;\nline-height: 1;\ntext-decoration: none;\ncolor: green !important;\n}\n\n.res_pre {\nmargin: 10px 0 0 5px;\ncolor: green;\n}\n\n/*************************************\ncard_list\n*************************************/\n#up_file_wall {\nwidth: 500px;\nmargin: 20px 0;\npadding: 10px;\nbackground: repeating-linear-gradient(-45deg, #ececec 0, #ececec 20px, #f5f5f5 20px, #f5f5f5 40px);\n}\n\n.card_list {\nwidth: 100%;\n}\n\n.card_list a {\ntext-decoration: none;\ncolor: unset;\ndisplay: flex;\n}\n\n.card_list a.view_link {\ntext-decoration: underline;\ncolor: #4478ff;\n}\n\n.card_list a.view_link:hover {\ntext-decoration: underline;\ncolor: #ff6000;\n}\n\n.card_list table {\nwidth: 100%;\nmargin: 10px;\npadding: 15px;\nbox-shadow: 0 1px 6px rgba(97, 100, 109, 0.28);\n}\n\n.card_list table:hover {\ntransform: scale(1.02);\ntransition-duration: 0.2s;\n}\n\n.card_list img {\nwidth: 100%;\n}\n\n.card_list_btn_wall {\nwidth: 100%;\n}\n\n.card_list .card_list_btn_wall a {\ndisplay: inline-block;\n}\n\n.card_list .card_list_btn_wall form {\nmargin: 0;\n}\n\n.card_list button {\npadding: 5px 10px;\nbackground-color: #ffffff;\nborder: solid 2px #0072ff;\ncolor: #0072ff;\nborder-radius: 5px;\ncursor: pointer;\n}\n\n.card_list button:hover {\ncolor: #ff6000;\nborder: solid 2px #ff6000;\n}\n\n.card_list button:disabled,input[type=\"submit\"]:disabled {\nborder: solid 2px #B5B5B5;\ncolor: #B5B5B5;\n}\n\ninput[type=\"text\"]:disabled, input[type=\"number\"]:disabled {\nbackground-color: #f5f5f5;\nborder-color: #efefef !important;\n}\n\n.limit_over_area .dateHead span {\nbackground-color: #ff2976;\nborder-left-color: #d30143;\n}\n\n.limit_over_area .dateHead span:after {\nborder-left-color: #ff2976;\n}\n\n.limit_over_area span {\ncolor: red;\nfont-weight: 600;\n}\n\n\n/*************************************\nproduct_regulation、report_update\n*************************************/\n.view_side_max {\npadding: 20px;\n}\n\nheader+.view_side_max {\npadding-top: 50px;\n}\n\n.view_side_max table {\nmax-width: 95% !important;\n}\n\n#table_form {\nwidth: 100%;\nfont-size: 13px;\nbox-shadow: 0 1px 6px rgba(97, 100, 109, 0.28);\n}\n\n#table_form p {\nfont-size: 13px;\n}\n\n#drawing_view_area {\nwidth: 100%;\npadding: 0;\nmargin: 0 0 20px 0;\n}\n\n#drawing_view {\nwidth: 100%;\nmax-width: 1200px;\nmargin: 0 auto;\n}\n\n#drawing_view img {\nmax-width: 100%;\n}\n\n.scroll {\nwidth: 100%;\n}\n\n.scroll_area {\nwidth: 100%;\nmax-height: 500px;\noverflow-y: scroll;\n}\n\n.scroll_th_area {\nwidth: 98%;\n}\n\n#table_form table {\ntable-layout: fixed;\nwidth: 100%;\nmargin: 0;\npadding: 5px;\n}\n\n#table_form textarea {\nwidth: 100%;\nheight: 100px;\npadding: 5px;\nborder: solid 1px #cecece;\nfont-size: 15px;\nbox-sizing: border-box;\n}\n\n#table_form input[type=\"text\"], #table_form input[type=\"date\"], #table_form input[type=\"number\"] {\nwidth: 100%;\npadding: 5px;\nborder: solid 1px #cecece;\nfont-size: 15px;\ntext-align: center;\nbox-sizing: border-box;\n}\n\n.scroll table th {\npadding: 5px;\n}\n\n.scroll table td {\npadding: 5px;\n}\n\n.scroll form {\nmargin: 0;\n}\n\n#table_form select {\nwidth: 100%;\npadding: 5px;\n}\n\n#table_form p {\npadding: 5px;\n}\n\n#regu_form_footer_area {\nwidth: 100%;\ndisplay: table;\n}\n\n#regu_form_left {\nwidth: 50%;\ndisplay: table-cell;\nvertical-align: middle;\n}\n\n#regu_form_right {\nwidth: 50%;\ndisplay: table-cell;\nvertical-align: middle;\ntext-align: right;\n}\n\n#info_form table {\nmargin: 0 0 20px 0;\n}\n\n\n\n/*************************************\nreport\n*************************************/\n.report_type {\nposition: relative;\n}\n\n.tag::before {\ncontent: \"\";\ntop: 0;\n    right: 0;\n    border-bottom: 70px solid transparent;\n    position: absolute;\n    z-index: 100;\n}\n\n.tag::after {\n    font-size: 15px;\n    display: block;\n    transform: rotate(45deg);\n    color: #fff;\n    right: 0;\n    position: absolute;\n    z-index: 101;\n    line-height: 1;\n    font-weight: 600;\n}\n\n.tag_type1 {\nborder: solid 2px #00976a;\n}\n\n.tag_type2 {\nborder: solid 2px #fb4376;\n}\n\n.tag_type1::before {\n    border-right: 70px solid #00976a;\n}\n\n.tag_type1::after {\n    content: \"\\5408\\683C\";\n    top: 8px;\n    padding: 10px;\n}\n\n.tag_type2::before {\n    border-right: 70px solid #fb4376;\n}\n\n.tag_type2::after {\n    content: \"\\4E0D\\5408\\683C\";\n    top: 15px;\n    padding: 3px;\n}\n\n.dateHead span {\n    display: table-cell;\n    vertical-align: middle;\n    position: relative;\n    background-color: #4478ff;\n    margin: 0 0 20px 0;\n    padding: 7px 20px;\n    color: white;\n    font-size: 14px;\n    font-weight: bold;\n    line-height: 1;\n    border-left: solid 5px #0047d3;\n}\n\n.dateHead span:after {\n    left: 100%;\n    top: 50%;\n    border: solid transparent;\n    content: \" \";\n    height: 0;\n    width: 0;\n    position: absolute;\n    pointer-events: none;\n    border-color: rgba(204, 204, 204, 0);\n    border-left-color: #4478ff;\n    border-width: 14px;\n    margin-top: -14px;\n}\n\n\n.measure_result1 .input_value {\ncolor: green;\n}\n.measure_result2 .input_value {\ncolor: red;\nfont-weight: bold;\n}\n.measure_result3 .input_value {\ncolor: orange;\n}\n\n.day_line {\nbackground: linear-gradient(to bottom, #169700, #ffffff 15%)\n}\n\n/*************************************\nmistake\n*************************************/\n#mistake_min input[type=\"text\"], #mistake_min input[type=\"date\"], #mistake_min input[type=\"number\"] {\ntext-align: left;\n}\n\n.text_left {\ntext-align: left;\n}\n\n.small_label {\nposition: absolute;\ntop: 0;\nleft: 0;\ncolor: white;\n}\n\n.relative .small_label1 {\nmargin: 2px;\npadding: 0 5px;\nfont-size: 10px;\nbackground-color: rgb(255 120 0 / 70%);\nfont-weight: 600;\nborder-radius: 5px;\n}\n\n.relative .small_label2 {\nmargin: 2px;\npadding: 0 5px;\nfont-size: 10px;\nbackground-color: rgb(0 136 169 / 70%);\nfont-weight: 600;\nborder-radius: 5px;\n}\n\n.mistake_list table {\nborder: solid 3px #ffd486;\n}\n\n.mistake_list .limit_over {\nborder: solid 3px #ffb3cc;\n}\n\n.mistake_list .comp_item {\nborder: none;\n}\n\n.limit_over .mt_manager {\ncolor: red;\n}\n\n.mistake_img_list {\n}\n\n.mistake_img_list div {\nfloat: left;\nwidth: 300px;\nheight: 300px;\nmargin: 10px;\nposition: relative;\noverflow: hidden;\n}\n\n.mistake_img_list div img {\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  transform: translate(-50%, -50%);\n  width: 100%;\n  object-fit: cover;\n}\n\n.mistake_list .comp_item .relative.img_comp_stamp:after {\n    content: \"\";\n    width: 200px;\n    height: 200px;\n    margin: auto;\n    opacity: 0.1;\n    position: absolute;\n    background: url(../img_material/comp_stamp.png) 0 / 100% no-repeat;\n    top: 0;\n    right: 0;\n    bottom: 0;\n    left: 0;\n}\n\n.sort_area {\nmargin: 0 0 20px 0;\n}\n\n.sort_area li {\nfloat: left;\nmargin: 0 5px;\nborder: solid 2px lightgrey;\nborder-radius: 10px;\nbackground-color: white;\nbox-shadow: 0 1px 6px rgba(97, 100, 109, 0.28);\n}\n\n.sort_area li.active {\nbackground-color: #4478ff;\n}\n\n.sort_area li a {\ndisplay: block;\npadding: 5px 10px;\nfont-size: 15px;\n}\n\n.sort_area li a:hover {\nopacity: 0.7;\n}\n\n.view_side_max .sort_area li:last-child {\nmargin: 0 0 0 50px;\nborder-radius: unset;\nborder: none;\n}\n\n.sort_area .active {\ncolor: white !important;\n}\n\n#mistake_search {\npadding-left: 35px;\nbackground: url(../img_material/icon_search.png) no-repeat 5px 50% / 20px;\n}\n\nb.mt_type1 {\nbackground-color: #fff2e5;\npadding: 0 3px;\n}\n\nb.mt_type2 {\nbackground-color: #e5e5ff;\npadding: 0 3px;\n}\n\nb.mt_type3 {\nbackground-color: #f2ffe5;\npadding: 0 3px;\n}\n\nb.mt_type4 {\nbackground-color: #ffe5f2;\npadding: 0 3px;\n}\n\n.tn_setting_class {\nborder: solid 3px #009688;\n}\n\n\n\n/*************************************\nside_info 1600px～\n*************************************/\n@media (min-width: 1600px) {\n\t#side_info {\n\twidth: 470px !important;\n\tpadding: 40px 10px 10px 10px;\n\tposition: absolute;\n\ttop: 30px;\n\tright: 0;\n\t}\n}\n\n@media (min-width: 1250px) {\n\t#side_info {\n\twidth: 300px !important;\n\tpadding: 40px 10px 10px 10px;\n\tposition: absolute;\n\ttop: 30px;\n\tright: 0;\n\t}\n}\n\n@media (min-width: 1250px) {\n\t#side_info {\n\twidth: 470px !important;\n\tpadding: 40px 10px 10px 10px;\n\tposition: absolute;\n\ttop: 30px;\n\tright: 0;\n\t}\n\t\n\t#side_info + ul {\n\tpadding: 0 0 50px 0;\n\t}\n\t\n\t.side_info_item {\n\tposition: relative;\n\tmargin: 0 0 40px 0;\n\t}\n\t\n\t.side_title {\n\tposition: absolute;\n\ttop: -20px;\n\tleft: 5px;\n\tmargin: 0;\n\tpadding: 2px 25px 2px 10px;\n\tline-height: 1.5;\n\tbackground-color: rgb(212 255 230 / 60%);\n\tfont-size: 14px;\n\tfont-weight: 600;\n\tborder-radius: 5px;\n\tbackground: rgb(212 255 230 / 60%) url(../img_material/icon_question.png) no-repeat 97% 40% / 16px;\n\t}\n\t\n\t#side_info .side_info_item ul {\n\tmargin: 10px 0;\n\tpadding: 15px;\n\tbox-shadow: 0 1px 6px rgba(97, 100, 109, 0.28);\n\t}\n\t\n\t#side_info .side_info_item ul li {\n\tpadding: 5px;\n\tfont-size: 14px;\n\tborder-bottom: dotted 1px #c7c7c7;\n\t}\n\t\n\t#side_info .side_title:first-of-type {\n\tmargin-top: 0;\n\t}\n\t\n\t#side_info table th {\n\tfont-size: 14px;\n\t}\n\t\n\t#side_info table td {\n\tfont-size: 14px;\n\t}\n\t\n\t.side_scroll {\n\tpadding: 10px;\n\toverflow-y: scroll;\n\theight: 300px;\n\tbox-shadow: 0 1px 6px rgba(97, 100, 109, 0.28);\n\t}\n\t\n\t#side_info .side_info_item .side_scroll p {\n\tpadding: 5px;\n\tclear: both;\n\tbackground-color: #f9f9f9;\n    }\n    \n\t#side_info .side_info_item .side_scroll a {\n\tmargin: 2px 3px;\n\tpadding: 2px 5px;\n\tcolor: #68b1ff;\n\tfont-size: 12px;\n\tfont-weight: 600;\n\tborder-radius: 5px;\n\tborder: solid 2px #84d1ff;\n\tdisplay: inline-block;\n    }\n    \n\t#side_info .side_info_item a {\n\tcolor: #68b1ff;\n    }\n    \n\t#side_info .side_info_item .side_scroll .active, #side_info .side_info_item .side_scroll a:hover {\n\tbackground-color: #4478ff;\n    color: white;\n    }\n    \n    #side_info .side_info_item:last-of-type {\n    margin-bottom: 20px;    \n    }\n    \n    .fixed_link {\n    position: absolute;\n    top: 5px;\n    right: 20px;\n    margin: 0;\n    padding: 4px 10px 4px 30px;\n    font-size: 12px;\n    color: white !important;\n    text-decoration: none;\n    border-radius: 5px;\n    background: black url(../img_material/icon_to_form.png) no-repeat 10px 50% / 15px;\n    }\n    \n\t.fixed_link:hover {\n\topacity: 0.7;\n\t}\n    \n    #side_info .side_scroll a {\n    text-decoration: none;\n    }\n\n\t#side_info ul li.rank1 {\n\tbackground: url(../img_material/icon_crown1.png) no-repeat 0 43% / 13px;\n\tpadding-left: 20px;\n    }\n    \n\t#side_info ul li.rank2 {\n\tbackground: url(../img_material/icon_crown2.png) no-repeat 0 43% / 13px;\n\tpadding-left: 20px;\n    }\n    \n\t#side_info ul li.rank3 {\n\tbackground: url(../img_material/icon_crown3.png) no-repeat 0 43% / 13px;\n\tpadding-left: 20px;\n    }\n    \n    #side_info input[type=\"submit\"] {\n    margin: 0;\n    padding: 2px 5px;\n    font-size: 13px;\n    border-radius: 0;\n    }\n    \n    #side_info .submit_pre {\n    width: 82% !important;\n    }\n    \n    \n\n}\n\n@media (max-width: 1249px) {\n\t#side_info {\n\tdisplay: none;\n\t}\n}\n\n/*************************************\nfmea\n*************************************/\n.rate_text {\ncolor: #ff532a;\nfont-size: 16px;\nfont-weight: 600;\n}\n\n.rate_text span {\nfont-size: 22px;\n}\n\n.rpn_text {\ncolor: red;\nfont-size: 25px;\nfont-weight: 600;\n}\n\n.update_link, .btn_feed, .btn_good, .btn_feed_view {\nfloat: right;\ndisplay: inline-block;\ntext-align: right;\nmargin: 0 10px 0 0;\npadding: 0 10px 0 32px;\nfont-size: 11px;\nfont-weight: 600;\ntext-decoration: none;\nborder: solid 2px #7ab4ff;\ncolor: #434343 !important;\nborder-radius: 5px;\nline-height: 2;\ncursor: pointer;\n}\n\n.update_link:hover, .btn_feed:hover, .btn_good:hover, .btn_feed_view:hover {\nopacity: 0.7;\n}\n\n.update_link {\nbackground: url(../img_material/icon_update.png) no-repeat 10px 50% / 13px;\n}\n\n.btn_feed {\nbackground: url(../img_material/icon_feed.png) no-repeat 10px 40% / 13px;\n}\n\n.btn_feed_view {\nbackground: url(../img_material/icon_feed_view.png) no-repeat 10px 40% / 13px;\n}\n\n.btn_good {\nbackground: url(../img_material/icon_good.png) no-repeat 10px 40% / 13px;\n}\n\n.voted {\nbackground-color: #e5ecff;\n}\n\n#feed_list ul {\nwidth: 700px;\nheight: 300px;\noverflow-y: scroll;\n}\n\n#feed_list ul li {\nmargin: 0 10px 0 0;\npadding: 10px;\nborder-bottom: dotted 1px #c7c7c7;\n}\n\n#feed_list ul li span {\nfont-size: 11px;\ncolor: #C0C0C0;\n}\n\nbutton:disabled {\nborder: solid 2px #B5B5B5;\ncolor: #B5B5B5;\n}\n\nbutton:disabled:hover {\nopacity: 1;\n}\n\n.fmea_item_wall {\ndisplay: block;\npadding-top: 70px;\nmargin-top: -70px;\nz-index: 100;\n}\n\n.more_link_wall {\nwidth: 100%;\nmargin: 40px 0 60px 0;\n}\n\n.add_item {\nanimation-name:fadeInAnime;\nanimation-duration:1s;\nanimation-fill-mode:forwards;\nopacity:0;\n}\n\n.more_link {\ndisplay: block;\nwidth: 20%;\nmargin: 30px auto;\npadding: 10px 50px;\nborder: solid 2px #000000;\nborder-radius: 5px;\nbackground-color: #FFFFFF;\nfont-weight: 600;\ntext-decoration: none;\ntext-align: center;\ncursor: pointer;\n}\n\n.img_loading {\ndisplay: block;\nmargin: -50px auto;\nposition: relative;\nz-index: -10;\n}\n\n#page_top {\nposition: fixed;\nbottom: 20px;\nleft: 950px;\npadding: 15px;\nbackground-color: rgb(0 0 0 / 65%);\nborder-radius: 10px;\n\n}\n\n#page_top a {\ndisplay: block;\ncolor: white;\nwidth: 30px;\nheight: 30px;\nbackground: url(../img_material/page_top.png) no-repeat 50% 50% / 30px;\n}",
+        "output": "str",
+        "x": 310,
+        "y": 260,
+        "wires": [
+            [
+                "7cad64c367231f8e"
+            ]
+        ]
+    },
+    {
+        "id": "6572161d41c11a5b",
+        "type": "link in",
+        "z": "b1bc797994f72646",
+        "name": "css",
+        "links": [],
+        "x": 175,
+        "y": 260,
+        "wires": [
+            [
+                "9a059c0c30ad2458"
+            ]
+        ]
+    },
+    {
+        "id": "7cad64c367231f8e",
+        "type": "link out",
+        "z": "b1bc797994f72646",
+        "name": "link out 12",
+        "mode": "return",
+        "links": [],
+        "x": 455,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "a26a3135ca8cc9e8",
+        "type": "link in",
+        "z": "b1bc797994f72646",
+        "name": "javascript",
+        "links": [],
+        "x": 155,
+        "y": 360,
+        "wires": [
+            [
+                "9862a9d887bc9415"
+            ]
+        ]
+    },
+    {
+        "id": "d74e5c2a2705a650",
+        "type": "link out",
+        "z": "b1bc797994f72646",
+        "name": "link out 13",
+        "mode": "return",
+        "links": [],
+        "x": 465,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "http_in",
+        "type": "http in",
+        "z": "b1bc797994f72646",
+        "name": "",
+        "url": "/get-options",
+        "method": "get",
+        "x": 220,
+        "y": 440,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "http_response",
+        "type": "http response",
+        "z": "b1bc797994f72646",
+        "name": "",
+        "statusCode": "",
+        "x": 620,
+        "y": 440,
+        "wires": []
+    },
+    {
+        "id": "8921eebb07b289ba",
+        "type": "function",
+        "z": "b1bc797994f72646",
+        "name": "function 5",
+        "func": "\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 380,
+        "y": 440,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "84959575beceb1a9",
+        "type": "http in",
+        "z": "b1bc797994f72646",
+        "name": "",
+        "url": "/get-units",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 210,
+        "y": 480,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "a9083a1706acd9bf",
+        "type": "http response",
+        "z": "b1bc797994f72646",
+        "name": "",
+        "statusCode": "",
+        "x": 610,
+        "y": 480,
+        "wires": []
     }
 ]
