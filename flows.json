@@ -23676,7 +23676,7 @@
         "template": "<!DOCTYPE html>\n<html lang=\"ja\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>各報告書フォーム・報告書一覧</title>\n    <link href=\"/bootstrap-5.0.2-dist/css/bootstrap.min.css\" rel=\"stylesheet\" type=\"text/css\">\n    <style>\n     {{{css.cssfile}}}\n    </style>  \n    \n</head>\n\n<body>\n\n  <!-- 共通ヘッダー -->\n  {{{html.header}}}  \n  <!-- メインコンテンツ -->\n  {{{html.main}}}\n        \n  <!-- スクリプトの読み込み -->\n  <script src=\"/bootstrap-5.0.2-dist/js/bootstrap.bundle.min.js\"></script>\n  <script>\n    {{{js.javascriptfile}}}\n  </script>  \n\n</body>\n</html>\n",
         "output": "str",
         "x": 610,
-        "y": 140,
+        "y": 160,
         "wires": [
             [
                 "1490b708f8bc5680"
@@ -23692,10 +23692,10 @@
         "fieldType": "msg",
         "format": "handlebars",
         "syntax": "mustache",
-        "template": "<div id=\"container\">\n\n  <div id=\"mistake_min\">\n\n    <h2 style=\"display: flex; align-items: center; justify-content: space-between;\">\n      <span>不適合報告書</span>\n      <button type=\"button\" class=\"btn btn-primary ms-2 mb-1\" id=\"mt-add\" data-bs-toggle=\"modal\" data-bs-target=\"#staticBackdrop\">新規登録</button>\n      {{{html.formModal}}}\n    </h2>\n\n    <ul class=\"nav nav-tabs\">\n\n      <li class=\"nav-item\">\n        <a class=\"nav-link active\" data-sort=\"\">全表示</a>\n      </li>\n      <li class=\"nav-item\">\n        <a class=\"nav-link\" data-sort=\"不適合\">不適合</a>\n      </li>\n      <li class=\"nav-item\">\n        <a class=\"nav-link\" data-sort=\"クレーム\">クレーム</a>\n      </li>\n      <li class=\"nav-item\">\n        <a class=\"nav-link\" data-sort=\"是正\">是正</a>\n      </li>\n      <li class=\"nav-item\">\n        <a class=\"nav-link\" data-sort=\"顧客\">顧客</a>\n      </li>\n      <li class=\"nav-item ms-auto\">     \n        <button class=\"btn btn-outline-secondary\" type=\"button\" id=\"mt-search\" data-bs-toggle=\"modal\" data-bs-target=\"#staticBackdrop2\">絞り込み検索</button>\n        {{{html.searchModal}}}\n      </li>      \n      \n    </ul>\n\n    <div id=\"result\"></div> \n\n    \n    \n    \n  </div>\n\n</div>  ",
+        "template": "<div id=\"container\">\n\n  <div id=\"mistake_min\">\n\n    <h2 style=\"display: flex; align-items: center; justify-content: space-between;\">\n      <span>不適合報告書</span>\n      <button type=\"button\" class=\"btn btn-primary ms-2 mb-1\" id=\"mt-add\" data-bs-toggle=\"modal\" data-bs-target=\"#staticBackdrop\">新規登録</button>\n      {{{html.formModal}}}\n    </h2>\n\n    <ul class=\"nav nav-tabs\">\n\n      <li class=\"nav-item\">\n        <a class=\"nav-link active\" data-sort=\"\">全表示</a>\n      </li>\n      <li class=\"nav-item\">\n        <a class=\"nav-link\" data-sort=\"不適合\">不適合</a>\n      </li>\n      <li class=\"nav-item\">\n        <a class=\"nav-link\" data-sort=\"クレーム\">クレーム</a>\n      </li>\n      <li class=\"nav-item\">\n        <a class=\"nav-link\" data-sort=\"是正\">是正</a>\n      </li>\n      <li class=\"nav-item\">\n        <a class=\"nav-link\" data-sort=\"顧客\">顧客</a>\n      </li>\n      <li class=\"nav-item ms-auto\">     \n        <button class=\"btn btn-outline-secondary\" type=\"button\" id=\"mt-search\" data-bs-toggle=\"modal\" data-bs-target=\"#staticBackdrop2\">絞り込み検索</button>\n        {{{html.searchModal}}}\n      </li>      \n      \n    </ul>\n    {{{html.updateModal}}}\n    {{{html.imgModal}}}\n    <div id=\"result\"></div> \n\n    \n    \n    \n  </div>\n\n</div>  ",
         "output": "str",
         "x": 490,
-        "y": 140,
+        "y": 160,
         "wires": [
             [
                 "58e5b0e150a9baf6"
@@ -23710,7 +23710,7 @@
         "statusCode": "",
         "headers": {},
         "x": 730,
-        "y": 140,
+        "y": 160,
         "wires": []
     },
     {
@@ -23791,7 +23791,7 @@
         "name": "header",
         "links": [],
         "x": 215,
-        "y": 180,
+        "y": 220,
         "wires": [
             [
                 "c3f9d1c70dc774f0"
@@ -23806,7 +23806,7 @@
         "mode": "return",
         "links": [],
         "x": 415,
-        "y": 180,
+        "y": 220,
         "wires": []
     },
     {
@@ -23818,10 +23818,10 @@
         "fieldType": "msg",
         "format": "javascript",
         "syntax": "mustache",
-        "template": "// 発行日と回答期限設定\nfunction setDefaultDates() {\n    const today = new Date();\n    const tenDaysLater = new Date();\n    tenDaysLater.setDate(today.getDate() + 10);\n\n    const formatDate = (date) => {\n        const yyyy = date.getFullYear();\n        const mm = String(date.getMonth() + 1).padStart(2, '0');\n        const dd = String(date.getDate()).padStart(2, '0');\n        return `${yyyy}-${mm}-${dd}`;\n    };\n\n    document.getElementById('mt_date').value = formatDate(today);\n    document.getElementById('mt_answer_date').value = formatDate(tenDaysLater);\n}\n\n//セレクトボックスの表示内容取得\nasync function populateSelectBox(apiUrl, selectId) {\n    try {\n        const response = await fetch(apiUrl);\n        if (!response.ok) {\n            throw new Error(`HTTPエラー: ${response.status}`);\n        }\n        const data = await response.json();\n\n        const selectBox = document.getElementById(selectId);\n\n        selectBox.innerHTML = '<option value=\"\">選択してください</option>';\n\n        // `selectId` に基づいてカラムを切り替える\n        data.forEach(item => {\n            const option = document.createElement('option');\n\n            if (selectId === 'mt_client' || selectId === 's_mt_client') {\n                option.value = item.c_name;\n                option.textContent = item.c_name;\n            } else if (selectId === 'mt_discovery_unit' || selectId === 'mt_source_unit' || selectId === 's_mt_discovery_unit' || selectId === 's_mt_source_unit'){\n                option.value = item.unit_name;\n                option.textContent = `【${item.unit_type}】 ${item.unit_name}`; \n            }\n\n            selectBox.appendChild(option);              \n\n        });\n\n        // 固定値のオプションを追加\n        if (selectId === 'mt_discovery_unit' || selectId === 's_mt_discovery_unit' ) {\n            const fixedOptions = [\n                { value: '納入時', text: '【顧客】納入時' },\n                { value: '市場', text: '【顧客】市場' }\n            ];\n\n            fixedOptions.forEach(fixed => {\n                const option = document.createElement('option');\n                option.value = fixed.value;\n                option.textContent = fixed.text;\n                selectBox.appendChild(option);\n            });\n        }  \n        \n    } catch (error) {\n        console.error('エラー:', error);\n    }\n}\n\ndocument.addEventListener('DOMContentLoaded', async function () {\n\n    let storedStaffName = sessionStorage.getItem('staffName');\n    if (storedStaffName == null) {\n        alert('ログインしてください。');\n        window.location.href = \"/login\";\n    }\n\n    // 初期タブを設定\n    const defaultTab = document.querySelector('.nav-link[data-sort=\"\"]');\n    if (defaultTab) {\n        defaultTab.classList.add('active'); // デフォルトタブをアクティブ化\n\n        // デフォルトAPIコール\n        const sort = defaultTab.dataset.sort;\n        const response = await fetch(`/api/mistake_list?sort=${sort}`);\n        const html = await response.text();\n\n        // 初期結果を表示\n        document.getElementById('result').innerHTML = html;\n    }\n\n    // タブのクリックイベントを設定\n    document.querySelectorAll('.nav-link').forEach(tab => {\n        tab.addEventListener('click', async () => {\n            // 全てのタブからアクティブクラスを削除\n            document.querySelectorAll('.nav-link').forEach(t => t.classList.remove('active'));\n            // クリックしたタブをアクティブ化\n            tab.classList.add('active');\n\n            // APIコール\n            const sort = tab.dataset.sort;\n            const response = await fetch(`/api/mistake_list?sort=${sort}`);\n            const html = await response.text();\n\n            // 結果を表示\n            document.getElementById('result').innerHTML = html;\n        });\n    });\n\n    //新規登録\n    document.getElementById(\"mt-add\").addEventListener(\"click\", async function () {\n\n        const form = document.getElementById('mistakeForm');\n\n        form.reset();\n\n        // セレクトボックスを初期値に設定\n        const selects = form.querySelectorAll('select');\n        selects.forEach(select => {\n            select.value = '';\n        });\n\n        // エラーメッセージをクリア\n        const errorMessages = form.querySelectorAll('.error_msg');\n        errorMessages.forEach(msg => {\n            msg.textContent = ''; // エラーメッセージを空にする\n        });\n\n        // テキストエリアもクリア\n        const textareas = form.querySelectorAll('textarea');\n        textareas.forEach(textarea => {\n            textarea.value = '';\n        });\n\n        document.getElementById('mt_manager').value = storedStaffName;\n\n        // 日付の初期化\n        setDefaultDates();\n\n        // セレクトボックスを初期化\n        await populateSelectBox('/get-options', 'mt_client');\n        await populateSelectBox('/get-units', 'mt_discovery_unit');\n        await populateSelectBox('/get-units', 'mt_source_unit');\n\n    });\n\n    document.getElementById(\"new\").addEventListener(\"click\", function () {\n\n        // 必須項目のリストとエラー表示用要素のリスト\n        const requiredFields = [\n            { id: \"mt_type\", errorId: \"error_mt_type\", message: \"種別を選択してください\" },\n            { id: \"mt_manager\", errorId: \"error_mt_manager\", message: \"担当者を入力してください\" },\n            { id: \"mt_date\", errorId: \"error_mt_date\", message: \"発行日を入力してください\" },\n            { id: \"mt_answer_date\", errorId: \"error_mt_answer_date\", message: \"回答期限を入力してください\" },\n            { id: \"mt_product_code\", errorId: \"error_mt_product_code\", message: \"品番を入力してください\" },\n            { id: \"mt_product_name\", errorId: \"error_mt_product_name\", message: \"品名を入力してください\" },\n            { id: \"mt_pcs\", errorId: \"error_mt_pcs\", message: \"数量を入力してください\" },\n            { id: \"mt_client\", errorId: \"error_mt_client\", message: \"顧客名を選択してください\" },\n            { id: \"mt_discovery_unit\", errorId: \"error_mt_discovery_unit\", message: \"発見部門を選択してください\" },\n            { id: \"mt_source_unit\", errorId: \"error_mt_source_unit\", message: \"原因部門を選択してください\" },\n            { id: \"mt_source_process\", errorId: \"error_mt_source_process\", message: \"原因工程を選択してください\" },\n            { id: \"mt_content\", errorId: \"error_mt_content\", message: \"不具合内容を入力してください\" }\n        ];\n\n        let isValid = true; // 全ての項目が正しいかどうか\n\n        // 各項目をチェック\n        requiredFields.forEach(field => {\n            const inputElement = document.getElementById(field.id);\n            const errorElement = document.getElementById(field.errorId);\n\n            if (!inputElement.value) {\n                errorElement.textContent = field.message;\n                isValid = false;\n            } else {\n                errorElement.textContent = \"\"; // エラーを消す\n            }\n        });\n\n        if(isValid){\n\n            const formData = new FormData(document.getElementById(\"mistakeForm\"));\n\n            fetch(\"/insert-mistake\", {\n                method: \"POST\",\n                body: formData\n            })\n            .then(response => response.json())\n            .then(data => {\n                if (data.success) {\n                    alert(\"データを登録しました\");\n                    // モーダルを閉じるなどの処理\n                    document.getElementById(\"modal-close-button\").click();\n                    // ページをリロード\n                    location.reload();\n\n                } else {\n                    alert(\"登録に失敗しました\");\n                }\n            })\n            .catch(error => {\n                console.error(\"Error:\", error);\n                alert(\"エラーが発生しました\");\n            });\n        }\n    });\n\n    //検索\n    document.getElementById(\"mt-search\").addEventListener(\"click\", async function () {\n\n        // 現在アクティブなタブを取得\n        const activeTab = document.querySelector('.nav-link.active');\n        const activeSort = activeTab ? activeTab.dataset.sort : \"\";\n\n        const form = document.getElementById('mistakeSearchForm');\n        form.reset();\n\n        const mtTypeSelect = document.getElementById(\"s_mt_type\");\n\n        if (activeSort) {\n            mtTypeSelect.value = activeSort;\n            mtTypeSelect.disabled = true;\n        } else {\n            mtTypeSelect.value = \"\";\n            mtTypeSelect.disabled = true;\n        }\n\n        await populateSelectBox('/get-options', 's_mt_client');\n        await populateSelectBox('/get-units', 's_mt_discovery_unit');\n        await populateSelectBox('/get-units', 's_mt_source_unit');\n\n    }); \n\n    document.getElementById(\"search\").addEventListener(\"click\", async function () {\n\n        const activeTab = document.querySelector('.nav-link.active');\n        const sort = activeTab.dataset.sort;\n\n        const form = document.getElementById(\"mistakeSearchForm\");\n        const formData = new FormData(form);\n\n        // クエリパラメータを作成\n        const params = new URLSearchParams();\n        params.append(\"sort\", sort);\n        formData.forEach((value, key) => {\n            if (value) { // 空の値は追加しない\n                params.append(key, value);\n            }\n        });\n\n        const response = await fetch(`/api/mistake_list?${params.toString()}`);\n        const html = await response.text();\n\n        // 結果を表示\n        document.getElementById('result').innerHTML = html;\n        document.getElementById(\"modal-close-button2\").click();\n\n    });   \n});",
+        "template": "// 日付を日本時間（JST）に変換する関数\nfunction convertToJST(dateString) {\n    const dateObject = new Date(dateString); // 文字列からDateオブジェクトを作成\n    const jstOffset = 9 * 60 * 60 * 1000; // 日本時間はUTC+9時間\n    const jstDate = new Date(dateObject.getTime() + jstOffset); // 日本時間に変換\n\n    // 日付を 'YYYY-MM-DD' 形式で返す\n    return jstDate.toISOString().split('T')[0];\n}\n\n// 発行日と回答期限設定\nfunction setDefaultDates() {\n    const today = new Date();\n    const tenDaysLater = new Date();\n    tenDaysLater.setDate(today.getDate() + 10);\n\n    const formatDate = (date) => {\n        const yyyy = date.getFullYear();\n        const mm = String(date.getMonth() + 1).padStart(2, '0');\n        const dd = String(date.getDate()).padStart(2, '0');\n        return `${yyyy}-${mm}-${dd}`;\n    };\n\n    document.getElementById('mt_date').value = formatDate(today);\n    document.getElementById('mt_answer_date').value = formatDate(tenDaysLater);\n}\n\n//セレクトボックスの表示内容取得\nasync function populateSelectBox(apiUrl, selectId) {\n    try {\n        const response = await fetch(apiUrl);\n        if (!response.ok) {\n            throw new Error(`HTTPエラー: ${response.status}`);\n        }\n        const data = await response.json();\n\n        const selectBox = document.getElementById(selectId);\n\n        //selectBox.innerHTML = '<option value=\"\">選択してください</option>';\n\n        // `selectId` に基づいてカラムを切り替える\n        data.forEach(item => {\n            const option = document.createElement('option');\n\n            if (selectId === 'mt_client' || selectId === 's_mt_client' || selectId === 'u_mt_client') {\n                option.value = item.c_name;\n                option.textContent = item.c_name;\n            } else if (selectId === 'mt_discovery_unit' || selectId === 'mt_source_unit' || selectId === 's_mt_discovery_unit' || selectId === 's_mt_source_unit' || selectId === 'u_mt_discovery_unit' || selectId === 'u_mt_source_unit'){\n                option.value = item.unit_name;\n                option.textContent = `【${item.unit_type}】 ${item.unit_name}`; \n            }\n\n            selectBox.appendChild(option);              \n\n        });\n\n        // 固定値のオプションを追加\n        if (selectId === 'mt_discovery_unit' || selectId === 's_mt_discovery_unit' || selectId === 'u_mt_discovery_unit') {\n            const fixedOptions = [\n                { value: '納入時', text: '【顧客】納入時' },\n                { value: '市場', text: '【顧客】市場' }\n            ];\n\n            fixedOptions.forEach(fixed => {\n                const option = document.createElement('option');\n                option.value = fixed.value;\n                option.textContent = fixed.text;\n                selectBox.appendChild(option);\n            });\n        }  \n        \n    } catch (error) {\n        console.error('エラー:', error);\n    }\n}\n\nfunction resetModalContent(modalId) {\n    const modal = document.getElementById(modalId);\n    const inputs = modal.querySelectorAll('input, select, textarea');\n    const fileInputs = modal.querySelectorAll('input[type=\"file\"]');\n    const lists = modal.querySelectorAll('.document-list');\n\n    // テキスト、選択、テキストエリアをリセット\n    inputs.forEach(input => {\n        if (input.type !== 'file') {\n            input.value = '';\n        }\n    });\n\n    // ファイル入力をリセット\n    fileInputs.forEach(fileInput => {\n        // 現在のファイル入力をリセット\n        fileInput.value = ''; // 確実にリセット\n    });\n\n    // リストをリセット\n    lists.forEach(list => list.innerHTML = '');\n}\n\n//アップロードファイル選択時の処理\ndocument.addEventListener('DOMContentLoaded', () => {\n    const fileInput = document.getElementById('up_file');\n    const preview = document.getElementById('preview');\n    const errorMessage = document.getElementById('error_message');\n\n    // ファイル選択時の処理\n    fileInput.addEventListener('change', (event) => {\n        const files = event.target.files;\n        handleFiles(files);\n    });\n\n    function handleFiles(files) {\n        preview.innerHTML = ''; // プレビューをリセット\n        let isValid = true;\n\n        Array.from(files).forEach((file) => {\n            // ファイル形式のチェック\n            if (!['image/jpeg', 'image/png', 'application/pdf'].includes(file.type)) {\n                isValid = false;\n                return;\n            }\n\n            // プレビューの生成\n            if (file.type.startsWith('image/')) {\n                const img = document.createElement('img');\n                img.src = URL.createObjectURL(file);\n                img.style.maxWidth = '100px';\n                img.style.margin = '5px';\n                preview.appendChild(img);\n            } else if (file.type === 'application/pdf') {\n                const pdf = document.createElement('span');\n                pdf.textContent = `PDF: ${file.name}`;\n                pdf.style.display = 'block';\n                pdf.style.margin = '5px';\n                preview.appendChild(pdf);\n            }\n        });\n\n        // エラーメッセージの表示/非表示\n        errorMessage.style.display = isValid ? 'none' : 'block';\n\n        // 無効な場合はリセット\n        if (!isValid) {\n            fileInput.value = '';\n        }\n    }\n});\n\n\ndocument.addEventListener('DOMContentLoaded', async function () {\n\n    let storedStaffName = sessionStorage.getItem('staffName');\n    if (storedStaffName == null) {\n        alert('ログインしてください。');\n        window.location.href = \"/login\";\n    }\n\n    // 初期タブを設定\n    const defaultTab = document.querySelector('.nav-link[data-sort=\"\"]');\n    if (defaultTab) {\n        defaultTab.classList.add('active'); // デフォルトタブをアクティブ化\n\n        // デフォルトAPIコール\n        const sort = defaultTab.dataset.sort;\n        const response = await fetch(`/mistake_list?sort=${sort}`);\n        const html = await response.text();\n\n        // 初期結果を表示\n        document.getElementById('result').innerHTML = html;\n    }\n\n    // タブのクリックイベントを設定\n    document.querySelectorAll('.nav-link').forEach(tab => {\n        tab.addEventListener('click', async () => {\n            // 全てのタブからアクティブクラスを削除\n            document.querySelectorAll('.nav-link').forEach(t => t.classList.remove('active'));\n            // クリックしたタブをアクティブ化\n            tab.classList.add('active');\n\n            // APIコール\n            const sort = tab.dataset.sort;\n            const response = await fetch(`/mistake_list?sort=${sort}`);\n            const html = await response.text();\n\n            // 結果を表示\n            document.getElementById('result').innerHTML = html;\n        });\n    });\n\n    //新規登録\n    document.getElementById(\"mt-add\").addEventListener(\"click\", async function () {\n\n        const form = document.getElementById('mistakeForm');\n\n        form.reset();\n\n        // セレクトボックスを初期値に設定\n        const selects = form.querySelectorAll('select');\n        selects.forEach(select => {\n            select.value = '';\n        });\n\n        // エラーメッセージをクリア\n        const errorMessages = form.querySelectorAll('.error_msg');\n        errorMessages.forEach(msg => {\n            msg.textContent = ''; // エラーメッセージを空にする\n        });\n\n        // テキストエリアもクリア\n        const textareas = form.querySelectorAll('textarea');\n        textareas.forEach(textarea => {\n            textarea.value = '';\n        });\n\n        document.getElementById('mt_manager').value = storedStaffName;\n\n        // 日付の初期化\n        setDefaultDates();\n\n        // セレクトボックスを初期化\n        await populateSelectBox('/get-options', 'mt_client');\n        await populateSelectBox('/get-units', 'mt_discovery_unit');\n        await populateSelectBox('/get-units', 'mt_source_unit');\n\n    });\n\n    document.getElementById(\"new\").addEventListener(\"click\", function () {\n\n        // 必須項目のリストとエラー表示用要素のリスト\n        const requiredFields = [\n            { id: \"mt_type\", errorId: \"error_mt_type\", message: \"種別を選択してください\" },\n            { id: \"mt_manager\", errorId: \"error_mt_manager\", message: \"担当者を入力してください\" },\n            { id: \"mt_date\", errorId: \"error_mt_date\", message: \"発行日を入力してください\" },\n            { id: \"mt_answer_date\", errorId: \"error_mt_answer_date\", message: \"回答期限を入力してください\" },\n            { id: \"mt_product_code\", errorId: \"error_mt_product_code\", message: \"品番を入力してください\" },\n            { id: \"mt_product_name\", errorId: \"error_mt_product_name\", message: \"品名を入力してください\" },\n            { id: \"mt_pcs\", errorId: \"error_mt_pcs\", message: \"数量を入力してください\" },\n            { id: \"mt_client\", errorId: \"error_mt_client\", message: \"顧客名を選択してください\" },\n            { id: \"mt_discovery_unit\", errorId: \"error_mt_discovery_unit\", message: \"発見部門を選択してください\" },\n            { id: \"mt_source_unit\", errorId: \"error_mt_source_unit\", message: \"原因部門を選択してください\" },\n            { id: \"mt_source_process\", errorId: \"error_mt_source_process\", message: \"原因工程を選択してください\" },\n            { id: \"mt_content\", errorId: \"error_mt_content\", message: \"不具合内容を入力してください\" }\n        ];\n\n        let isValid = true; // 全ての項目が正しいかどうか\n\n        // 各項目をチェック\n        requiredFields.forEach(field => {\n            const inputElement = document.getElementById(field.id);\n            const errorElement = document.getElementById(field.errorId);\n\n            if (!inputElement.value) {\n                errorElement.textContent = field.message;\n                isValid = false;\n            } else {\n                errorElement.textContent = \"\"; // エラーを消す\n            }\n        });\n\n        if(isValid){\n\n            const formData = new FormData(document.getElementById(\"mistakeForm\"));\n\n            fetch(\"/insert-mistake\", {\n                method: \"POST\",\n                body: formData\n            })\n            .then(response => response.json())\n            .then(data => {\n                if (data.success) {\n                    alert(\"データを登録しました\");\n                    // モーダルを閉じるなどの処理\n                    document.getElementById(\"modal-close-button\").click();\n                    // ページをリロード\n                    location.reload();\n\n                } else {\n                    alert(\"登録に失敗しました\");\n                }\n            })\n            .catch(error => {\n                console.error(\"Error:\", error);\n                alert(\"エラーが発生しました\");\n            });\n        }\n    });\n\n    //検索\n    document.getElementById(\"mt-search\").addEventListener(\"click\", async function () {\n\n        // 現在アクティブなタブを取得\n        const activeTab = document.querySelector('.nav-link.active');\n        const activeSort = activeTab ? activeTab.dataset.sort : \"\";\n\n        const form = document.getElementById('mistakeSearchForm');\n        form.reset();\n\n        const mtTypeSelect = document.getElementById(\"s_mt_type\");\n\n        if (activeSort) {\n            mtTypeSelect.value = activeSort;\n            mtTypeSelect.disabled = true;\n        } else {\n            mtTypeSelect.value = \"\";\n            mtTypeSelect.disabled = true;\n        }\n\n        await populateSelectBox('/get-options', 's_mt_client');\n        await populateSelectBox('/get-units', 's_mt_discovery_unit');\n        await populateSelectBox('/get-units', 's_mt_source_unit');\n\n    }); \n\n    document.getElementById(\"search\").addEventListener(\"click\", async function () {\n\n        const activeTab = document.querySelector('.nav-link.active');\n        const sort = activeTab.dataset.sort;\n\n        const form = document.getElementById(\"mistakeSearchForm\");\n        const formData = new FormData(form);\n\n        // クエリパラメータを作成\n        const params = new URLSearchParams();\n        params.append(\"sort\", sort);\n        formData.forEach((value, key) => {\n            if (value) { // 空の値は追加しない\n                params.append(key, value);\n            }\n        });\n\n        const response = await fetch(`/mistake_list?${params.toString()}`);\n        const html = await response.text();\n\n        // 結果を表示\n        document.getElementById('result').innerHTML = html;\n        document.getElementById(\"modal-close-button2\").click();\n\n    });\n\n    //訂正・追加と資料一覧・アップロードのモーダル表示内容\n    document.addEventListener('click', async function (event) {\n\n        function getMtNumFromEvent(event) {\n            return event.target.getAttribute('data-mt-num');\n        }\n\n        let mtNum = getMtNumFromEvent(event);\n\n        if (event.target && event.target.id === 'mt-update') {\n\n            resetModalContent('staticBackdrop3');\n            \n            document.getElementById('u_mt_num').value = mtNum;\n\n            try {\n                \n                const response = await fetch(`/update-mistake_list?mt_num=${mtNum}`);\n                if (!response.ok) throw new Error(`HTTPエラー: ${response.status}`);\n                \n                const responseData = await response.json();\n\n                // 配列の最初の要素を確認\n                if (!responseData || responseData.length === 0) {\n                    throw new Error('データが存在しません');\n                }\n\n                await populateSelectBox('/get-options', 'u_mt_client');\n                await populateSelectBox('/get-units', 'u_mt_discovery_unit');\n                await populateSelectBox('/get-units', 'u_mt_source_unit');\n\n                // 取得したデータをモーダル内に挿入\n                const data = responseData[0];\n                document.getElementById('u_mt_num_text').value = data.mt_num_text || '';\n                document.getElementById('u_mt_content_source').value = data.mt_content_source || '';\n                document.getElementById('u_mt_content_care').value = data.mt_content_care || '';\n                document.getElementById('u_mt_type').value = data.mt_type || '';\n                document.getElementById('u_mt_manager').value = data.mt_manager || '';\n                document.getElementById('u_mt_date').value = convertToJST(data.mt_date) || '';\n                document.getElementById('u_mt_answer_date').value = convertToJST(data.mt_answer_date) || '';\n                document.getElementById('u_mt_product_code').value = data.mt_product_code || '';\n                document.getElementById('u_mt_product_name').value = data.mt_product_name || '';\n                document.getElementById('u_mt_pcs').value = data.mt_pcs || '';\n                document.getElementById('u_mt_client').value = data.mt_client || '';\n                document.getElementById('u_mt_discovery_unit').value = data.mt_discovery_unit || '';\n                document.getElementById('u_mt_source_unit').value = data.mt_source_unit || '';\n                document.getElementById('u_mt_source_process').value = data.mt_source_process || '';\n                document.getElementById('u_mt_content').value = data.mt_content || '';\n\n            } catch (error) {\n                console.error(\"エラー発生:\", error);\n                const modalBody = document.querySelector('#staticBackdrop3 .modal-body');\n                modalBody.innerHTML = `<p class=\"text-danger\">${error.message}</p>`;\n            }                   \n        } else if (event.target && event.target.id === 'mt-img'){\n\n            resetModalContent('staticBackdrop4');\n\n            document.getElementById('i_mt_num').value = mtNum;\n            console.log(mtNum);\n\n        }\n    });\n\n    document.getElementById(\"update\").addEventListener(\"click\", async function () {\n\n        const formData = {\n            mt_num_text: document.getElementById('u_mt_num_text').value,\n            mt_content_source: document.getElementById('u_mt_content_source').value,\n            mt_content_care: document.getElementById('u_mt_content_care').value,\n            mt_manager: document.getElementById('u_mt_manager').value,\n            mt_date: document.getElementById('u_mt_date').value,\n            mt_answer_date: document.getElementById('u_mt_answer_date').value,\n            mt_product_code: document.getElementById('u_mt_product_code').value,\n            mt_product_name: document.getElementById('u_mt_product_name').value,\n            mt_pcs: document.getElementById('u_mt_pcs').value,\n            mt_client: document.getElementById('u_mt_client').value,\n            mt_discovery_unit: document.getElementById('u_mt_discovery_unit').value,\n            mt_source_unit: document.getElementById('u_mt_source_unit').value,\n            mt_source_process: document.getElementById('u_mt_source_process').value,\n            mt_content: document.getElementById('u_mt_content').value,\n            mt_num: document.getElementById('u_mt_num').value,\n        };\n\n        try {\n            const response = await fetch('/update-mistake', {\n                method: 'POST',\n                headers: {\n                    'Content-Type': 'application/json'\n                },\n                body: JSON.stringify(formData)\n            });\n\n            const result = await response.json();\n            if (response.ok) {\n                alert('データが更新されました！');\n                document.getElementById(\"modal-close-button3\").click();\n                // ページをリロード\n                location.reload();\n            } else {\n                console.error('エラー:', result);\n                alert('更新に失敗しました。');\n            }\n        } catch (error) {\n            console.error('通信エラー:', error);\n            alert('サーバーに接続できませんでした。');\n        }        \n    });  \n\n    //画像・PDFアップロード\n    document.getElementById('update_img').addEventListener('click', function () {\n        const formElement = document.querySelector('form[action=\"/upload\"]');\n        const formData = new FormData(formElement);\n\n        // フォームデータに含まれているファイル名を確認\n        formData.forEach((value, key) => {\n            if (value instanceof File) {\n                console.log(`File name: ${value.name}`);\n            }\n        });\n\n        // エラーメッセージを非表示にする\n        const errorMessage = document.getElementById('error_message');\n        errorMessage.style.display = 'none';\n\n        // Fetch APIでPOSTリクエスト\n        fetch('/upload-img', {\n            method: 'POST',\n            body: formData\n        })\n            .then(response => response.json()) // JSONレスポンスを期待\n            .then(data => {\n                if (data.success) {\n                    alert('アップロードが成功しました！');\n                    // 必要に応じてフォームをリセット\n                    formElement.reset();\n                } else if (data.error) {\n                    // エラーメッセージを表示\n                    errorMessage.textContent = `エラー: ${data.error}`;\n                    errorMessage.style.display = 'block';\n                }\n            })\n            .catch(error => {\n                console.error('アップロード中にエラーが発生しました:', error);\n                alert('アップロードに失敗しました。');\n            });\n    });\n});",
         "output": "str",
         "x": 320,
-        "y": 260,
+        "y": 300,
         "wires": [
             [
                 "d74e5c2a2705a650"
@@ -23840,7 +23840,7 @@
         "template": "<header>\n  <nav class=\"navbar navbar-expand-md custom-navbar mb-4 fixed-top\">\n    <div class=\"container-fluid\">\n      <span class=\"navbar-brand mb-0 h1\">\n        <img src=\"/ktrg-logo.png\" alt=\"KTRG\" width=\"30\" height=\"30\">\n      </span>\n      <button class=\"navbar-toggler\" type=\"button\" data-bs-toggle=\"collapse\" data-bs-target=\"#navbarNav\" aria-controls=\"navbarNav\" aria-expanded=\"false\" aria-label=\"Toggle navigation\">\n        <span class=\"navbar-toggler-icon custom-toggler-icon\"></span>\n      </button>\n      <div class=\"collapse navbar-collapse\" id=\"navbarNav\">\n        <ul class=\"navbar-nav me-auto mb-2 mb-md-0\">\n          <li class=\"nav-item\">\n            <a class=\"nav-link white-text\" href=\"/index\">メインメニュー</a>\n          </li>\n        </ul>\n      </div>\n    </div>\n  </nav>\n</header>\n\n",
         "output": "str",
         "x": 320,
-        "y": 180,
+        "y": 220,
         "wires": [
             [
                 "dc4b09c33cca9679"
@@ -23859,7 +23859,7 @@
         "template": "body {\nwidth: 100%;\nmargin: 0;\ncolor: #373737;\nword-break: break-all;\nword-wrap: break-word;\nposition: relative;\n}\n\n#container {\nwidth: 100%;\nmax-width: 1200px;\npadding: 50px 20px 20px 20px;\n}\n\n.modal {\n    margin-top: calc(28px + 10px); /* ヘッダー高さを考慮 */\n}\n\n.nav-tabs .nav-link {\n    display: flex;\n    align-items: center;\n}\n.nav-item .form-control, \n.nav-item .btn {\n    height: calc(2.25rem + 2px); /* Bootstrapのデフォルト高さ */\n    padding: 0.375rem 0.75rem; /* インプットの高さと余白を調整 */\n}\n\n.custom-input {\n  width: 70%;\n  color: gray;\n}\n\n/* ヘッダーの高さに合わせた余白を設定 */\n.header-space {\n    height: 28px; \n}\n\n.custom-navbar {\n    background-color: #033f66;\n    color: white;\n}\n\n\n.navbar-nav .nav-link.white-text {\n    color: white;\n}\n\n\n\na,a:visited {\ncolor: #4478ff;\n}\n\na:hover {\ncolor: #ff6000;\n}\n\na img {\nborder-style: none;\n}\n\nimg {\nheight: auto;\nvertical-align: top;\n}\n\nimg[alt] {\nfont-size: 10px;\n}\n\np {\nline-height: 1.7;\nmargin: 0;\npadding: 10px;\nfont-size: 15px;\n}\n\ndiv {\nbox-sizing: border-box;\n}\n\nul,ol {\nlist-style: none;\noverflow: hidden;\nmargin: 0;\npadding: 0;\n}\n\nh2 {\nmargin: 40px 0;\npadding: 3px;\nborder-bottom: solid 5px #4478ff;\nposition: relative;\nfont-size: 25px;\ncolor: #373737;\nbackground: none;\nborder-left: none;\nline-height: 1.1;\n}\n\nh2:after {\nposition: absolute;\ncontent: \"\";\ndisplay: block;\nborder-bottom: solid 5px #c1c1c1;\nright: 0;\nbottom: -5px;\nwidth: 80%;\nborder-image: linear-gradient(to left, #ffffff, #ebebeb);\nborder-image-slice: 1;\nline-height: 1;\n}\n\nh2 span {\noverflow: hidden;\npadding: 0 40px 0 0;\nbackground: url(../img_material/icon_question.png) no-repeat 100% 30% / 25px\n}\n\ntable {\nwidth: 100%;\nmargin: 0 0 10px 0;\n\nborder-collapse: collapse;\nfont-size: 15px;\n}\n\nth {\npadding: 5px 10px;\nborder: solid 1px #ededed;\nbackground: #f7f7f7;\n}\n\ntd {\ntext-align: center;\npadding: 10px;\nborder: solid 1px #ededed;\n}\n\ntd a {\ndisplay: block;\nfont-weight: 600;\n}\n\n.success_msg {\nmargin: 20px 0;\npadding: 5px 20px;\nbackground-color: #e6ffe8;\nborder: solid 2px #00b52b;\nborder-radius: 5px;\ncolor: #007800;\ndisplay: inline-block;\n\nanimation-name:fadeInAnime;\nanimation-duration:1s;\nanimation-fill-mode:forwards;\nopacity:0;\n}\n\n.notice_msg {\nmargin: 20px;\npadding: 5px 20px;\nbackground-color: #fff4f4;\nborder: solid 2px #ff9999;\nborder-radius: 5px;\ncolor: #ff4e4e;\ndisplay: inline-block;\n\nanimation-name:fadeInAnime;\nanimation-duration:1s;\nanimation-fill-mode:forwards;\nopacity:0;\n}\n\n@keyframes fadeInAnime{\n  from {\n    opacity: 0;\n  }\n\n  to {\n    opacity: 1;\n  }\n}\n\n.flex {\ndisplay: flex;\n}\n\n.left {\ntext-align: left !important;\n}\n\n.img_link {\npadding: 0 20px 0 0;\nbackground: url(../img_material/icon_img.png) no-repeat 100% 50% / 13px;\ncursor: pointer;\n}\n\n.icon_link {\npadding: 0 0 0 20px;\nbackground: url(../img_material/icon_link.png) no-repeat 0% 50% / 13px;\n}\n\n.icon_cross {\npadding: 0 0 0 17px;\nbackground: url(../img_material/icon_cross.png) no-repeat 0% 50% / 13px;\n}\n\n/*************************************\njquery ui\n*************************************/\n.ui-tooltip {\nbackground-color: rgb(0 0 0 / 70%) !important;\nborder: none !important;\ncolor: white !important;\nfont-size: 13px !important;\n}\n\n.drag_num {\nwidth: 20px;\nheight: 20px;\nfont-size: 15px;\nborder: solid 1px;\nborder-radius: 100%;\ndisplay: block;\ntext-align: center;\n}\n\n.ui-corner-all {\nfont-size: 13px !important;\n}\n\n.ui-helper-hidden-accessible {\nposition: unset;\n}\n\n.ui-tabs .ui-tabs-nav .ui-tabs-anchor {\npadding: 10px 25px;\n}\n\n/* 図面のプラスマイナス  */\n.leaflet-control-zoom {\nopacity: 0.5;\n}\n\n.ui-widget-overlay {\nbackground: black;\nopacity: 0.5;\n}\n/*************************************\nheader、nav\n*************************************/\nheader {\nwidth: 100%;\nposition: fixed;\nz-index: 10000;\n}\n\n#outside nav {\nbackground: repeating-linear-gradient(-45deg, #000000 0, #000000 20px, #353535 20px, #353535 40px);\n}\n\nnav {\nwidth: 100%;\nheight: auto;\npadding: 5px;\nbackground-color: #212121;\nposition: fixed;\nbox-shadow: 0 1px 6px rgb(97 100 109 / 28%);\noverflow-x: auto;\nposition: relative;\n}\n\n#nav_area {\ndisplay: table;\n}\n\n#nav_logo {\nwidth: 45px;\npadding: 0 10px;\ndisplay: table-cell;\nvertical-align: middle;\n\n}\n\n#nav_logo img {\nwidth: 100%;\n}\n\n#nav_scroll {\ndisplay: table-cell;\nvertical-align: middle;\n}\n\nnav ul {\nwidth: 100%;\ndisplay: table;\nposition: relative;\n}\n\nnav li {\npadding: 0;\nmargin: 0;\ntext-align: center;\ndisplay: table-cell;\nvertical-align: middle;\nborder-right: solid 2px #474747;\nwhite-space: nowrap;\n}\n\nnav li a {\nmargin: 0;\npadding: 8px;\ncolor: #FFFFFF;\nfont-size: 12px;\ntext-decoration: none;\ndisplay: block;\nposition: relative;\n}\n\na.new_mark::after {\nposition: absolute;\ncontent: '';\nwidth: 16px;\nheight: 7px;\ntop: 0;\nright: 10px;\nbackground: url(../img_material/icon_new.gif)  no-repeat 0 / 16px\n}\n\n\nnav li a:hover, nav li a:visited {\ncolor: #FFFFFF;\n}\n\nnav li a span {\npadding: 5px;\n}\n\nnav li span:hover {\nborder-bottom: solid 2px #ffffff;\n}\n\nli.active {\nbackground-color: #4478ff;\nborder-radius: 5px;\n}\n\n#nav_note {\nposition: absolute;\ntop: 0;\nright: 0;\npadding: 0 10px 0 0;\ncolor: white;\n}\n\n#nav_note p {\npadding-left: 30px;\nfont-size: 14px;\nbackground: url(../img_material/icon_anno.png) no-repeat 0 50% / 20px;\n}\n\n/*************************************\nbreadcrumbs\n*************************************/\n.breadcrumbs {\npadding: 10px;\nfont-size: 15px;\n\n}\n\n.breadcrumbs li {\nfloat: left;\nposition: relative;\nmargin: 0;\npadding: 0 5px;\nline-height: 2;\n}\n\n.breadcrumbs li a {\npadding: 0 30px 0 10px;\ndisplay: block;\n}\n\n.breadcrumbs li a.active {\nbackground-color: #4478ff;\ncolor: white;\ntext-decoration: none;\nborder-radius: 3px;\n}\n\n.breadcrumbs li a::after {\ncontent: '';\nwidth: 5px;\nheight: 5px;\nborder: 0px;\nborder-top: solid 2px #b5b5b5;\nborder-right: solid 2px #b5b5b5;\n-ms-transform: rotate(45deg);\n-webkit-transform: rotate(45deg);\ntransform: rotate(45deg);\nposition: absolute;\ntop: 40%;\nright: 15px;\nmargin-top: -2px;\n}\n\n\n/*************************************\nform\n*************************************/\n\nlabel {\ndisplay: block;\nfont-size: 15px;\nfont-weight: 600;\n}\n\nselect {\nwidth: 300px;\npadding: 10px;\n}\n\ninput[type=\"text\"].small {\nwidth: 200px;\npadding: 10px;\n}\n\ninput[type=\"text\"].medium, input[type=\"date\"].medium {\nwidth: 400px;\npadding: 10px;\n}\n\ninput[type=\"text\"].large {\nwidth: 700px;\npadding: 10px;\n}\n\ninput[type=\"submit\"],input[type=\"button\"],.btn_common {\nmargin: 15px 0;\npadding: 10px 20px;\nbackground-color: #f5f5f5;\nborder: solid 2px #a6a6a6;\nborder-radius: 5px;\ncolor: #1160ff;\nfont-size: 15px;\nfont-weight: 500;\ncursor: pointer;\n}\n\ninput[type=\"submit\"]:hover,input[type=\"button\"]:hover.btn_common:hover {\nopacity: 0.6;\ncursor: pointer;\n}\n\n.update_form input[type=\"text\"],.update_form select,.update_form input[type=\"number\"],.update_form input[type=\"date\"],.update_form textarea {\nborder: solid 3px orange !important;\n}\n\n.update_form textarea {\nwidth: 400px;\nheight: 100px;\nborder: solid 3px orange;\n}\n\n.error_msg {\ncolor: red !important;\nposition: unset !important;\nbackground-color: unset !important;\n}\n\n.red {\ncolor: red !important;\n}\n\n.red_thin {\ncolor: #ffb3cd;\n}\n\n.blue {\ncolor: blue;\n}\n\n.blue_thin {\ncolor: #4478ff;\n}\n\n.green {\ncolor: green;\n}\n\n.orange {\ncolor: orange !important;\n}\n\n.relative {\nposition: relative;\n}\n\n.relative.img_approval:after {\ncontent: \"\";\nwidth: 70px;\nheight: 70px;\nmargin: auto;\nposition: absolute;\nbackground:  url(\"../img_material/approval.png\") 0 / 100% no-repeat;\ntop: 0;\nright: 0;\nbottom: 0;\nleft: 0;\n}\n\n.relative img+span {\nposition: absolute;\ntop: 0;\nleft: 0;\npadding: 2px 8px;\nz-index: 1;\nbackground-color: rgb(0 0 0 / 60%);\nfont-size: 13px;\ncolor: white;\n}\n\n/*************************************\nlogin\n*************************************/\n#login {\nwidth: 300px;\nmargin: 100px auto;\npadding: 20px;\nbox-shadow: 0 1px 6px rgba(97, 100, 109, 0.28);\n}\n\n.input_login {\nwidth: 100%;\nmargin: 0 0 10px 0;\npadding: 10px;\nbox-sizing: border-box;\n}\n\n#submit_login {\nwidth: 100%;\nmargin: 30px 0 0 0;\npadding: 10px;\nbackground-color: #1160ff;\ncolor: white;\nborder: none;\nborder-radius: 0;\n}\n\n\n/*************************************\nchat\n*************************************/\n#chat {\nwidth: 800px;\n}\n\n#chat .login_text {\nfont-size: 13px;\nmargin: 0;\npadding: 0 0 0 10px;\n}\n\n#chat_area {\nmargin: 0 0 20px 0;\npadding: 20px;\nbackground-color: #f5f5f5;\nbox-sizing: border-box;\nborder: solid 1px #ededed;\nborder-radius: 7px;\nbox-shadow: 0 1px 6px rgba(97, 100, 109, 0.28);\n}\n\n#chat_area textarea {\nwidth: 100%;\nheight: 200px;\npadding: 10px;\nborder: solid 2px #ededed;\nline-height: 1.6;\nborder-radius: 5px;\nbox-sizing: border-box;\n}\n\n#img_upload_area p {\nfont-size: 15px;\nfont-weight: 600;\n}\n\ninput[type=\"file\"] {\nwidth: 100%;\npadding: 10px 0;\n}\n\n::-webkit-file-upload-button {\nmargin: 0 10px 0 0;\npadding: 5px;\nbackground-color: #EBEBEB;\nborder: solid 2px #C0C0C0;\n}\n\n::-webkit-file-upload-button:hover {\nopacity: 0.6;\ncursor: pointer;\n}\n\n#chat_error_msg {\npadding: 3px;\n}\n\n#chat_error_msg span {\nfont-size: 15px;\ncolor: red;\n}\n\n.btn_wall {\n}\n\n.btn_wall button {\npadding: 15px 20px;\nbackground-color: #4478ff;\nborder: solid 2px #0030ff;\ncolor: white;\nborder-radius: 10px;\n}\n\n\n\n.btn_wall button:hover {\nopacity: 0.6;\ncursor: pointer;\n}\n\n\n#chat_post {\nmargin: 15px 0 0 0;\n}\n\n#chat_list ul {\n\n}\n\n#chat_list li {\nmargin: 10px;\npadding: 15px;\nbox-shadow: 0 1px 6px rgba(97, 100, 109, 0.28);\n}\n\n#chat_list li p {\npadding: 5px;\nfont-size: 14px;\n}\n\n#chat_list li img {\ndisplay: block;\nmargin: 20px auto;\n}\n\n.response {\nbackground-color: #f7f6ff;\n}\n\n.response_text {\ncolor: green;\n}\n\n.resNo {\ncolor: #808080;\nfont-weight: 700;\n}\n\n.chat_name {\npadding: 0 10px;\ncolor: #6363ff;\n}\n\n.chat_name.executive {\ncolor: #ff7676;\n}\n\n\n.chat_list_footer {\ntext-align: right;\npadding: 15px 5px 0 5px;\n}\n\n.chat_list_footer span {\npadding: 0 10px;\nline-height: 1.6;\nfont-size: 14px;\ncolor: #949292;\n}\n\n.reply {\ndisplay: inline-block;\npadding: 5px 10px 5px 30px;\nborder: solid 1px #8a8a8a;\nbackground: url(../img_material/icon_reply.png) no-repeat 10px 50%;\nbackground-size: 13px;\nborder-radius: 2px;\nfont-size: 13px;\nline-height: 1;\ntext-decoration: none;\ncolor: green !important;\n}\n\n.res_pre {\nmargin: 10px 0 0 5px;\ncolor: green;\n}\n\n/*************************************\ncard_list\n*************************************/\n#up_file_wall {\nwidth: 500px;\nmargin: 20px 0;\npadding: 10px;\nbackground: repeating-linear-gradient(-45deg, #ececec 0, #ececec 20px, #f5f5f5 20px, #f5f5f5 40px);\n}\n\n.card_list {\nwidth: 100%;\n}\n\n.card_list a {\ntext-decoration: none;\ncolor: unset;\ndisplay: flex;\n}\n\n.card_list a.view_link {\ntext-decoration: underline;\ncolor: #4478ff;\n}\n\n.card_list a.view_link:hover {\ntext-decoration: underline;\ncolor: #ff6000;\n}\n\n.card_list table {\nwidth: 100%;\nmargin: 10px;\npadding: 15px;\nbox-shadow: 0 1px 6px rgba(97, 100, 109, 0.28);\n}\n\n.card_list table:hover {\ntransform: scale(1.02);\ntransition-duration: 0.2s;\n}\n\n.card_list img {\nwidth: 100%;\n}\n\n.card_list_btn_wall {\nwidth: 100%;\n}\n\n.card_list .card_list_btn_wall a {\ndisplay: inline-block;\n}\n\n.card_list .card_list_btn_wall form {\nmargin: 0;\n}\n\n.card_list button {\npadding: 5px 10px;\nbackground-color: #ffffff;\nborder: solid 2px #0072ff;\ncolor: #0072ff;\nborder-radius: 5px;\ncursor: pointer;\n}\n\n.card_list button:hover {\ncolor: #ff6000;\nborder: solid 2px #ff6000;\n}\n\n.card_list button:disabled,input[type=\"submit\"]:disabled {\nborder: solid 2px #B5B5B5;\ncolor: #B5B5B5;\n}\n\ninput[type=\"text\"]:disabled, input[type=\"number\"]:disabled {\nbackground-color: #f5f5f5;\nborder-color: #efefef !important;\n}\n\n.limit_over_area .dateHead span {\nbackground-color: #ff2976;\nborder-left-color: #d30143;\n}\n\n.limit_over_area .dateHead span:after {\nborder-left-color: #ff2976;\n}\n\n.limit_over_area span {\ncolor: red;\nfont-weight: 600;\n}\n\n\n/*************************************\nproduct_regulation、report_update\n*************************************/\n.view_side_max {\npadding: 20px;\n}\n\nheader+.view_side_max {\npadding-top: 50px;\n}\n\n.view_side_max table {\nmax-width: 95% !important;\n}\n\n#table_form,\n#searchTable_form {\nwidth: 100%;\nfont-size: 13px;\nbox-shadow: 0 1px 6px rgba(97, 100, 109, 0.28);\n}\n\n#table_form p {\nfont-size: 13px;\n}\n\n#drawing_view_area {\nwidth: 100%;\npadding: 0;\nmargin: 0 0 20px 0;\n}\n\n#drawing_view {\nwidth: 100%;\nmax-width: 1200px;\nmargin: 0 auto;\n}\n\n#drawing_view img {\nmax-width: 100%;\n}\n\n.scroll {\nwidth: 100%;\n}\n\n.scroll_area {\nwidth: 100%;\nmax-height: 500px;\noverflow-y: scroll;\n}\n\n.scroll_th_area {\nwidth: 98%;\n}\n\n#table_form table {\ntable-layout: fixed;\nwidth: 100%;\nmargin: 0;\npadding: 5px;\n}\n\n#table_form textarea {\nwidth: 100%;\nheight: 100px;\npadding: 5px;\nborder: solid 1px #cecece;\nfont-size: 15px;\nbox-sizing: border-box;\n}\n\n#searchTable_form input[type=\"text\"], #searchTable_form input[type=\"date\"],\n#table_form input[type=\"text\"], #table_form input[type=\"date\"], #table_form input[type=\"number\"] {\nwidth: 100%;\npadding: 5px;\nborder: solid 1px #cecece;\nfont-size: 15px;\ntext-align: center;\nbox-sizing: border-box;\n}\n\n.scroll table th {\npadding: 5px;\n}\n\n.scroll table td {\npadding: 5px;\n}\n\n.scroll form {\nmargin: 0;\n}\n\n#searchTable_form select,\n#table_form select {\nwidth: 100%;\npadding: 5px;\n}\n\n#table_form p {\npadding: 5px;\n}\n\n#regu_form_footer_area {\nwidth: 100%;\ndisplay: table;\n}\n\n#regu_form_left {\nwidth: 50%;\ndisplay: table-cell;\nvertical-align: middle;\n}\n\n#regu_form_right {\nwidth: 50%;\ndisplay: table-cell;\nvertical-align: middle;\ntext-align: right;\n}\n\n#info_form table {\nmargin: 0 0 20px 0;\n}\n\n\n\n/*************************************\nreport\n*************************************/\n.report_type {\nposition: relative;\n}\n\n.tag::before {\ncontent: \"\";\ntop: 0;\n    right: 0;\n    border-bottom: 70px solid transparent;\n    position: absolute;\n    z-index: 100;\n}\n\n.tag::after {\n    font-size: 15px;\n    display: block;\n    transform: rotate(45deg);\n    color: #fff;\n    right: 0;\n    position: absolute;\n    z-index: 101;\n    line-height: 1;\n    font-weight: 600;\n}\n\n.tag_type1 {\nborder: solid 2px #00976a;\n}\n\n.tag_type2 {\nborder: solid 2px #fb4376;\n}\n\n.tag_type1::before {\n    border-right: 70px solid #00976a;\n}\n\n.tag_type1::after {\n    content: \"\\5408\\683C\";\n    top: 8px;\n    padding: 10px;\n}\n\n.tag_type2::before {\n    border-right: 70px solid #fb4376;\n}\n\n.tag_type2::after {\n    content: \"\\4E0D\\5408\\683C\";\n    top: 15px;\n    padding: 3px;\n}\n\n.dateHead span {\n    display: table-cell;\n    vertical-align: middle;\n    position: relative;\n    background-color: #4478ff;\n    margin: 0 0 20px 0;\n    padding: 7px 20px;\n    color: white;\n    font-size: 14px;\n    font-weight: bold;\n    line-height: 1;\n    border-left: solid 5px #0047d3;\n}\n\n.dateHead span:after {\n    left: 100%;\n    top: 50%;\n    border: solid transparent;\n    content: \" \";\n    height: 0;\n    width: 0;\n    position: absolute;\n    pointer-events: none;\n    border-color: rgba(204, 204, 204, 0);\n    border-left-color: #4478ff;\n    border-width: 14px;\n    margin-top: -14px;\n}\n\n\n.measure_result1 .input_value {\ncolor: green;\n}\n.measure_result2 .input_value {\ncolor: red;\nfont-weight: bold;\n}\n.measure_result3 .input_value {\ncolor: orange;\n}\n\n.day_line {\nbackground: linear-gradient(to bottom, #169700, #ffffff 15%)\n}\n\n/*************************************\nmistake\n*************************************/\n#mistake_min input[type=\"text\"], #mistake_min input[type=\"date\"], #mistake_min input[type=\"number\"] {\ntext-align: left;\n}\n\n.text_left {\ntext-align: left;\n}\n\n.small_label {\nposition: absolute;\ntop: 0;\nleft: 0;\ncolor: white;\n}\n\n.relative .small_label1 {\nmargin: 2px;\npadding: 0 5px;\nfont-size: 10px;\nbackground-color: rgb(255 120 0 / 70%);\nfont-weight: 600;\nborder-radius: 5px;\n}\n\n.relative .small_label2 {\nmargin: 2px;\npadding: 0 5px;\nfont-size: 10px;\nbackground-color: rgb(0 136 169 / 70%);\nfont-weight: 600;\nborder-radius: 5px;\n}\n\n.mistake_list table {\nborder: solid 3px #ffd486;\n}\n\n.mistake_list .limit_over {\nborder: solid 3px #ffb3cc;\n}\n\n.mistake_list .comp_item {\nborder: none;\n}\n\n.limit_over .mt_manager {\ncolor: red;\n}\n\n.mistake_img_list {\n}\n\n.mistake_img_list div {\nfloat: left;\nwidth: 300px;\nheight: 300px;\nmargin: 10px;\nposition: relative;\noverflow: hidden;\n}\n\n.mistake_img_list div img {\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  transform: translate(-50%, -50%);\n  width: 100%;\n  object-fit: cover;\n}\n\n.mistake_list .comp_item .relative.img_comp_stamp:after {\n    content: \"\";\n    width: 200px;\n    height: 200px;\n    margin: auto;\n    opacity: 0.1;\n    position: absolute;\n    background: url(../img_material/comp_stamp.png) 0 / 100% no-repeat;\n    top: 0;\n    right: 0;\n    bottom: 0;\n    left: 0;\n}\n\n.sort_area {\nmargin: 0 0 20px 0;\n}\n\n.sort_area li {\nfloat: left;\nmargin: 0 5px;\nborder: solid 2px lightgrey;\nborder-radius: 10px;\nbackground-color: white;\nbox-shadow: 0 1px 6px rgba(97, 100, 109, 0.28);\n}\n\n.sort_area li.active {\nbackground-color: #4478ff;\n}\n\n.sort_area li a {\ndisplay: block;\npadding: 5px 10px;\nfont-size: 15px;\n}\n\n.sort_area li a:hover {\nopacity: 0.7;\n}\n\n.view_side_max .sort_area li:last-child {\nmargin: 0 0 0 50px;\nborder-radius: unset;\nborder: none;\n}\n\n.sort_area .active {\ncolor: white !important;\n}\n\n#mistake_search {\npadding-left: 35px;\nbackground: url(../img_material/icon_search.png) no-repeat 5px 50% / 20px;\n}\n\nb.mt_type1 {\nbackground-color: #fff2e5;\npadding: 0 3px;\n}\n\nb.mt_type2 {\nbackground-color: #e5e5ff;\npadding: 0 3px;\n}\n\nb.mt_type3 {\nbackground-color: #f2ffe5;\npadding: 0 3px;\n}\n\nb.mt_type4 {\nbackground-color: #ffe5f2;\npadding: 0 3px;\n}\n\n.tn_setting_class {\nborder: solid 3px #009688;\n}\n\n\n\n/*************************************\nside_info 1600px～\n*************************************/\n@media (min-width: 1600px) {\n\t#side_info {\n\twidth: 470px !important;\n\tpadding: 40px 10px 10px 10px;\n\tposition: absolute;\n\ttop: 30px;\n\tright: 0;\n\t}\n}\n\n@media (min-width: 1250px) {\n\t#side_info {\n\twidth: 300px !important;\n\tpadding: 40px 10px 10px 10px;\n\tposition: absolute;\n\ttop: 30px;\n\tright: 0;\n\t}\n}\n\n@media (min-width: 1250px) {\n\t#side_info {\n\twidth: 470px !important;\n\tpadding: 40px 10px 10px 10px;\n\tposition: absolute;\n\ttop: 30px;\n\tright: 0;\n\t}\n\t\n\t#side_info + ul {\n\tpadding: 0 0 50px 0;\n\t}\n\t\n\t.side_info_item {\n\tposition: relative;\n\tmargin: 0 0 40px 0;\n\t}\n\t\n\t.side_title {\n\tposition: absolute;\n\ttop: -20px;\n\tleft: 5px;\n\tmargin: 0;\n\tpadding: 2px 25px 2px 10px;\n\tline-height: 1.5;\n\tbackground-color: rgb(212 255 230 / 60%);\n\tfont-size: 14px;\n\tfont-weight: 600;\n\tborder-radius: 5px;\n\tbackground: rgb(212 255 230 / 60%) url(../img_material/icon_question.png) no-repeat 97% 40% / 16px;\n\t}\n\t\n\t#side_info .side_info_item ul {\n\tmargin: 10px 0;\n\tpadding: 15px;\n\tbox-shadow: 0 1px 6px rgba(97, 100, 109, 0.28);\n\t}\n\t\n\t#side_info .side_info_item ul li {\n\tpadding: 5px;\n\tfont-size: 14px;\n\tborder-bottom: dotted 1px #c7c7c7;\n\t}\n\t\n\t#side_info .side_title:first-of-type {\n\tmargin-top: 0;\n\t}\n\t\n\t#side_info table th {\n\tfont-size: 14px;\n\t}\n\t\n\t#side_info table td {\n\tfont-size: 14px;\n\t}\n\t\n\t.side_scroll {\n\tpadding: 10px;\n\toverflow-y: scroll;\n\theight: 300px;\n\tbox-shadow: 0 1px 6px rgba(97, 100, 109, 0.28);\n\t}\n\t\n\t#side_info .side_info_item .side_scroll p {\n\tpadding: 5px;\n\tclear: both;\n\tbackground-color: #f9f9f9;\n    }\n    \n\t#side_info .side_info_item .side_scroll a {\n\tmargin: 2px 3px;\n\tpadding: 2px 5px;\n\tcolor: #68b1ff;\n\tfont-size: 12px;\n\tfont-weight: 600;\n\tborder-radius: 5px;\n\tborder: solid 2px #84d1ff;\n\tdisplay: inline-block;\n    }\n    \n\t#side_info .side_info_item a {\n\tcolor: #68b1ff;\n    }\n    \n\t#side_info .side_info_item .side_scroll .active, #side_info .side_info_item .side_scroll a:hover {\n\tbackground-color: #4478ff;\n    color: white;\n    }\n    \n    #side_info .side_info_item:last-of-type {\n    margin-bottom: 20px;    \n    }\n    \n    .fixed_link {\n    position: absolute;\n    top: 5px;\n    right: 20px;\n    margin: 0;\n    padding: 4px 10px 4px 30px;\n    font-size: 12px;\n    color: white !important;\n    text-decoration: none;\n    border-radius: 5px;\n    background: black url(../img_material/icon_to_form.png) no-repeat 10px 50% / 15px;\n    }\n    \n\t.fixed_link:hover {\n\topacity: 0.7;\n\t}\n    \n    #side_info .side_scroll a {\n    text-decoration: none;\n    }\n\n\t#side_info ul li.rank1 {\n\tbackground: url(../img_material/icon_crown1.png) no-repeat 0 43% / 13px;\n\tpadding-left: 20px;\n    }\n    \n\t#side_info ul li.rank2 {\n\tbackground: url(../img_material/icon_crown2.png) no-repeat 0 43% / 13px;\n\tpadding-left: 20px;\n    }\n    \n\t#side_info ul li.rank3 {\n\tbackground: url(../img_material/icon_crown3.png) no-repeat 0 43% / 13px;\n\tpadding-left: 20px;\n    }\n    \n    #side_info input[type=\"submit\"] {\n    margin: 0;\n    padding: 2px 5px;\n    font-size: 13px;\n    border-radius: 0;\n    }\n    \n    #side_info .submit_pre {\n    width: 82% !important;\n    }\n    \n    \n\n}\n\n@media (max-width: 1249px) {\n\t#side_info {\n\tdisplay: none;\n\t}\n}\n\n/*************************************\nfmea\n*************************************/\n.rate_text {\ncolor: #ff532a;\nfont-size: 16px;\nfont-weight: 600;\n}\n\n.rate_text span {\nfont-size: 22px;\n}\n\n.rpn_text {\ncolor: red;\nfont-size: 25px;\nfont-weight: 600;\n}\n\n.update_link, .btn_feed, .btn_good, .btn_feed_view {\nfloat: right;\ndisplay: inline-block;\ntext-align: right;\nmargin: 0 10px 0 0;\npadding: 0 10px 0 32px;\nfont-size: 11px;\nfont-weight: 600;\ntext-decoration: none;\nborder: solid 2px #7ab4ff;\ncolor: #434343 !important;\nborder-radius: 5px;\nline-height: 2;\ncursor: pointer;\n}\n\n.update_link:hover, .btn_feed:hover, .btn_good:hover, .btn_feed_view:hover {\nopacity: 0.7;\n}\n\n.update_link {\nbackground: url(../img_material/icon_update.png) no-repeat 10px 50% / 13px;\n}\n\n.btn_feed {\nbackground: url(../img_material/icon_feed.png) no-repeat 10px 40% / 13px;\n}\n\n.btn_feed_view {\nbackground: url(../img_material/icon_feed_view.png) no-repeat 10px 40% / 13px;\n}\n\n.btn_good {\nbackground: url(../img_material/icon_good.png) no-repeat 10px 40% / 13px;\n}\n\n.voted {\nbackground-color: #e5ecff;\n}\n\n#feed_list ul {\nwidth: 700px;\nheight: 300px;\noverflow-y: scroll;\n}\n\n#feed_list ul li {\nmargin: 0 10px 0 0;\npadding: 10px;\nborder-bottom: dotted 1px #c7c7c7;\n}\n\n#feed_list ul li span {\nfont-size: 11px;\ncolor: #C0C0C0;\n}\n\nbutton:disabled {\nborder: solid 2px #B5B5B5;\ncolor: #B5B5B5;\n}\n\nbutton:disabled:hover {\nopacity: 1;\n}\n\n.fmea_item_wall {\ndisplay: block;\npadding-top: 70px;\nmargin-top: -70px;\nz-index: 100;\n}\n\n.more_link_wall {\nwidth: 100%;\nmargin: 40px 0 60px 0;\n}\n\n.add_item {\nanimation-name:fadeInAnime;\nanimation-duration:1s;\nanimation-fill-mode:forwards;\nopacity:0;\n}\n\n.more_link {\ndisplay: block;\nwidth: 20%;\nmargin: 30px auto;\npadding: 10px 50px;\nborder: solid 2px #000000;\nborder-radius: 5px;\nbackground-color: #FFFFFF;\nfont-weight: 600;\ntext-decoration: none;\ntext-align: center;\ncursor: pointer;\n}\n\n.img_loading {\ndisplay: block;\nmargin: -50px auto;\nposition: relative;\nz-index: -10;\n}\n\n#page_top {\nposition: fixed;\nbottom: 20px;\nleft: 950px;\npadding: 15px;\nbackground-color: rgb(0 0 0 / 65%);\nborder-radius: 10px;\n\n}\n\n#page_top a {\ndisplay: block;\ncolor: white;\nwidth: 30px;\nheight: 30px;\nbackground: url(../img_material/page_top.png) no-repeat 50% 50% / 30px;\n}",
         "output": "str",
         "x": 310,
-        "y": 220,
+        "y": 260,
         "wires": [
             [
                 "7cad64c367231f8e"
@@ -23873,7 +23873,7 @@
         "name": "css",
         "links": [],
         "x": 215,
-        "y": 220,
+        "y": 260,
         "wires": [
             [
                 "9a059c0c30ad2458"
@@ -23888,7 +23888,7 @@
         "mode": "return",
         "links": [],
         "x": 415,
-        "y": 220,
+        "y": 260,
         "wires": []
     },
     {
@@ -23898,7 +23898,7 @@
         "name": "javascript",
         "links": [],
         "x": 215,
-        "y": 260,
+        "y": 300,
         "wires": [
             [
                 "9862a9d887bc9415"
@@ -23913,7 +23913,7 @@
         "mode": "return",
         "links": [],
         "x": 415,
-        "y": 260,
+        "y": 300,
         "wires": []
     },
     {
@@ -23924,7 +23924,7 @@
         "url": "/get-options",
         "method": "get",
         "x": 280,
-        "y": 320,
+        "y": 360,
         "wires": [
             [
                 "8921eebb07b289ba"
@@ -23938,7 +23938,7 @@
         "name": "",
         "statusCode": "",
         "x": 730,
-        "y": 320,
+        "y": 360,
         "wires": []
     },
     {
@@ -23953,7 +23953,7 @@
         "finalize": "",
         "libs": [],
         "x": 450,
-        "y": 320,
+        "y": 360,
         "wires": [
             [
                 "09945a118206c7d9"
@@ -23970,7 +23970,7 @@
         "upload": false,
         "swaggerDoc": "",
         "x": 270,
-        "y": 360,
+        "y": 400,
         "wires": [
             [
                 "4d16eea0abc51e52"
@@ -23984,7 +23984,7 @@
         "name": "",
         "statusCode": "",
         "x": 730,
-        "y": 480,
+        "y": 520,
         "wires": []
     },
     {
@@ -23992,14 +23992,14 @@
         "type": "function",
         "z": "b1bc797994f72646",
         "name": "HTMLに変換",
-        "func": "const fs = global.get('fs');\nconst path = global.get('path');\nconst basePath = global.get('basePath');\n\n// クエリ結果を取得\nlet rows = msg.payload;\nlet cnt_search = rows.length; // 件数を計算\nlet html_output = `<p class=\"green\">${cnt_search} 件 HITしました。</p>`;\n\n// 各データ行をHTMLに変換\nfor (let data of rows) {\n    let class_add = \"\";\n    let mt_answer_add = \"\";\n    let btn_comp_pdf = \"\";\n    let mt_img_html = `<img src=\"/img_material/no_img_tn.jpg\" width=\"150\">`; // 開発用\n    //let mt_img_html = `<img src=\"../img_material/no_img_tn.jpg\">`; // デフォルト画像\n\n    // 完了フラグの判定\n    if (data.mt_content_source && data.mt_content_source.trim() !== '' &&\n        data.mt_content_care && data.mt_content_care.trim() !== '') {\n        class_add = 'comp_item';\n    } else {\n        class_add = '';\n    }    \n\n    // 画像パスを設定\n    //const imgPath = `../img_mistake/${data.mt_num}/${data.mt_img}.jpg`;\n    //const thumbPath = `../img_mistake/${data.mt_num}/${data.mt_img}_tn.jpg`;\n    \n\n    //開発用\n    let imgPath = `/img_mistake/${data.mt_num}/${data.mt_img}.jpg`;\n    let thumbPath = `/img_mistake/${data.mt_num}/${data.mt_img}_tn.jpg`;\n\n    // 相対パスを絶対パスに変換\n    let absoluteImgPath = path.join(basePath, `/node-red-static/img_mistake/${data.mt_num}/${data.mt_img}.jpg`);\n    \n\n    // 画像ファイルの存在確認\n    if (fs.existsSync(absoluteImgPath)) {\n        mt_img_html = `<a href=\"${imgPath}?${Date.now()}\" class=\"luminous\">\n                        <img src=\"${thumbPath}?${Date.now()}\" width=\"150\">\n                       </a>`;\n    }\n\n    //完了PDFの存在確認\n    let comppdfPath = `/img_mistake/${data.mt_num}/complete.pdf`;\n    let absolutecomppdfPath = path.join(basePath, `/node-red-static/img_mistake/${data.mt_num}/complete.pdf`);\n\n\n    if (fs.existsSync(absolutecomppdfPath)) {\n        btn_comp_pdf = `<a href=\"${comppdfPath}\" target=\"_blank\" class=\"btn btn-outline-primary btn-sm\">PDFを見る\n                       </a>`;\n    }else{\n        btn_comp_pdf = '';\n    }\n\n\n    // 進捗状況の判定\n    if (class_add) { // 完了\n        if (btn_comp_pdf !== '') {\n            mt_answer_add = '<span class=\"blue\"><b>Complete!</b></span>';\n        } else {\n            mt_answer_add = '<span class=\"orange\">完了PDFをアップロードしてください</span>';\n        }\n    } else if (new Date(data.mt_answer_date) < new Date()) { // 期限超過\n        let answer_limit = new Date(data.mt_answer_date);\n        let today = new Date();\n        let diffTime = today.getTime() - answer_limit.getTime();\n        let diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));\n\n        class_add = ' limit_over';\n        mt_answer_add = `<span class=\"red\">回答期限${diffDays}日超過</span>`;\n    } else { // 納期内\n        let answer_limit = new Date(data.mt_answer_date);\n        answer_limit.setDate(answer_limit.getDate() + 1);\n        let today = new Date();\n        let diffTime = answer_limit.getTime() - today.getTime();\n        let diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));\n\n        mt_answer_add = `<span class=\"orange\">回答待ち（あと${diffDays}日）</span>`;\n    }\n\n    let mt_date = new Date(data.mt_date).toLocaleDateString('ja-JP');\n    let mt_answer_date = new Date(data.mt_answer_date).toLocaleDateString('ja-JP');\n\n    // 必要に応じてカスタムHTML生成\n    html_output += `\n    <table id=\"table_form\" class=\"view_side_max\">\n        <tr>\n            <td rowspan=\"7\" width=\"10%\">\n                ${mt_img_html}\n            </td>\n            <th width=\"10%\">種別 / No.</th>\n            <th width=\"10%\">発行日</th>\n            <th width=\"10%\">回答期限</th>\n            <th width=\"10%\">進捗状況</th>\n            <td rowspan=\"7\" class=\"text_left relative img_comp_stamp\">\n                <p><span class=\"green\">【内容】</span><br />${data.mt_content}</p>\n                <p><span class=\"green\">【原因】</span><br />${data.mt_content_source || \"\"}</p>\n                <p><span class=\"green\">【対策】</span><br />${data.mt_content_care || \"\"}</p>\n            </td>\n        </tr>\n        <tr>\n            <td><b>${data.mt_num_text}</b></td>\n            <td>${mt_date}</td>\n            <td>${mt_answer_date}</td>\n            <td>${mt_answer_add}</td>\n        </tr>\n        <tr>\n            <th>顧客</th>\n            <th>品名</th>\n            <th>品番</th>\n            <th>数量</th>\n        </tr>\n        <tr>\n            <td>${data.mt_client}</td>\n            <td>${data.mt_product_name}</td>\n            <td>${data.mt_product_code}</td>\n            <td>${data.mt_pcs}</td>\n        </tr>\n        <tr>\n            <th>発見部門</th>\n            <th>原因部門</th>\n            <th>原因工程</th>\n            <th>担当</th>\n        </tr>\n        <tr>\n            <td>${data.mt_discovery_unit}</td>\n            <td>${data.mt_source_unit}</td>\n            <td>${data.mt_source_process}</td>\n            <td>${data.mt_manager}</td>\n        </tr>\n        <tr>\n            <td colspan=\"4\" class=\"text-center\">\n              <div class=\"d-flex justify-content-center gap-2\">\n                <a href=\"mistake_update.php?num=${data.mt_num}\" class=\"btn btn-outline-primary btn-sm\">訂正・追記</a>\n                <a href=\"mistake_img.php?num=${data.mt_num}\" target=\"_blank\" class=\"btn btn-outline-primary btn-sm\">資料一覧・アップロード</a>\n                ${btn_comp_pdf}\n              </div>\n            </td>\n        </tr>\n    </table>`;\n}\n\nmsg.payload = html_output;\nreturn msg;",
+        "func": "const fs = global.get('fs');\nconst path = global.get('path');\nconst basePath = global.get('basePath');\n\nlet rows = msg.payload;\nlet cnt_search = rows.length; // 件数を計算\nlet html_output = `<p class=\"green\">${cnt_search} 件 HITしました。</p>`;\n\n// 各データ行をHTMLに変換\nfor (let data of rows) {\n    let class_add = \"\";\n    let mt_answer_add = \"\";\n    let btn_comp_pdf = \"\";\n    let mt_img_html = `<img src=\"/img_material/no_img_tn.jpg\" width=\"150\">`; // 開発用\n    //let mt_img_html = `<img src=\"../img_material/no_img_tn.jpg\">`; // デフォルト画像\n\n    // 完了フラグの判定\n    if (data.mt_content_source && data.mt_content_source.trim() !== '' &&\n        data.mt_content_care && data.mt_content_care.trim() !== '') {\n        class_add = 'comp_item';\n    } else {\n        class_add = '';\n    }    \n\n    // 画像パスを設定\n    //const imgPath = `../img_mistake/${data.mt_num}/${data.mt_img}.jpg`;\n    //const thumbPath = `../img_mistake/${data.mt_num}/${data.mt_img}_tn.jpg`;\n    //開発用\n    let imgPath = `/img_mistake/${data.mt_num}/${data.mt_img}.jpg`;\n    let thumbPath = `/img_mistake/${data.mt_num}/${data.mt_img}_tn.jpg`;\n\n    // 相対パスを絶対パスに変換\n    let absoluteImgPath = path.join(basePath, `/node-red-static/img_mistake/${data.mt_num}/${data.mt_img}.jpg`);\n    \n\n    // 画像ファイルの存在確認\n    if (fs.existsSync(absoluteImgPath)) {\n        mt_img_html = `<a href=\"${imgPath}?${Date.now()}\" class=\"luminous\">\n                        <img src=\"${thumbPath}?${Date.now()}\" width=\"150\">\n                       </a>`;\n    }\n\n    //完了PDFの存在確認\n    let comppdfPath = `/img_mistake/${data.mt_num}/complete.pdf`;\n    let absolutecomppdfPath = path.join(basePath, `/node-red-static/img_mistake/${data.mt_num}/complete.pdf`);\n\n    if (fs.existsSync(absolutecomppdfPath)) {\n        btn_comp_pdf = `<a href=\"${comppdfPath}\" target=\"_blank\" class=\"btn btn-outline-primary btn-sm\">PDFを見る\n                       </a>`;\n    }else{\n        btn_comp_pdf = '';\n    }\n\n\n    // 進捗状況の判定\n    if (class_add) { // 完了\n        if (btn_comp_pdf !== '') {\n            mt_answer_add = '<span class=\"blue\"><b>Complete!</b></span>';\n        } else {\n            mt_answer_add = '<span class=\"orange\">完了PDFをアップロードしてください</span>';\n        }\n    } else if (new Date(data.mt_answer_date) < new Date()) { // 期限超過\n        let answer_limit = new Date(data.mt_answer_date);\n        let today = new Date();\n        let diffTime = today.getTime() - answer_limit.getTime();\n        let diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));\n\n        class_add = ' limit_over';\n        mt_answer_add = `<span class=\"red\">回答期限${diffDays}日超過</span>`;\n    } else { // 納期内\n        let answer_limit = new Date(data.mt_answer_date);\n        answer_limit.setDate(answer_limit.getDate() + 1);\n        let today = new Date();\n        let diffTime = answer_limit.getTime() - today.getTime();\n        let diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));\n\n        mt_answer_add = `<span class=\"orange\">回答待ち（あと${diffDays}日）</span>`;\n    }\n\n    let mt_date = new Date(data.mt_date).toLocaleDateString('ja-JP');\n    let mt_answer_date = new Date(data.mt_answer_date).toLocaleDateString('ja-JP');\n\n    // 必要に応じてカスタムHTML生成\n    html_output += `\n    <table id=\"table_form\" class=\"view_side_max\">\n        <tr>\n            <td rowspan=\"7\" width=\"10%\">\n                ${mt_img_html}\n            </td>\n            <th width=\"10%\">種別 / No.</th>\n            <th width=\"10%\">発行日</th>\n            <th width=\"10%\">回答期限</th>\n            <th width=\"10%\">進捗状況</th>\n            <td rowspan=\"7\" class=\"text_left relative img_comp_stamp\">\n                <p><span class=\"green\">【内容】</span><br />${data.mt_content}</p>\n                <p><span class=\"green\">【原因】</span><br />${data.mt_content_source || \"\"}</p>\n                <p><span class=\"green\">【対策】</span><br />${data.mt_content_care || \"\"}</p>\n            </td>\n        </tr>\n        <tr>\n            <td><b>${data.mt_num_text}</b></td>\n            <td>${mt_date}</td>\n            <td>${mt_answer_date}</td>\n            <td>${mt_answer_add}</td>\n        </tr>\n        <tr>\n            <th>顧客</th>\n            <th>品名</th>\n            <th>品番</th>\n            <th>数量</th>\n        </tr>\n        <tr>\n            <td>${data.mt_client}</td>\n            <td>${data.mt_product_name}</td>\n            <td>${data.mt_product_code}</td>\n            <td>${data.mt_pcs}</td>\n        </tr>\n        <tr>\n            <th>発見部門</th>\n            <th>原因部門</th>\n            <th>原因工程</th>\n            <th>担当</th>\n        </tr>\n        <tr>\n            <td>${data.mt_discovery_unit}</td>\n            <td>${data.mt_source_unit}</td>\n            <td>${data.mt_source_process}</td>\n            <td>${data.mt_manager}</td>\n        </tr>\n        <tr>\n            <td colspan=\"4\" class=\"text-center\">\n              <div class=\"d-flex justify-content-center gap-2\">\n                <button type=\"button\" class=\"btn btn-outline-primary btn-sm\" id=\"mt-update\" data-bs-toggle=\"modal\" data-bs-target=\"#staticBackdrop3\" data-mt-num=\"${data.mt_num}\">訂正・追記</button>\n                <button type=\"button\" class=\"btn btn-outline-primary btn-sm\" id=\"mt-img\" data-bs-toggle=\"modal\" data-bs-target=\"#staticBackdrop4\" data-mt-num=\"${data.mt_num}\">資料一覧・アップロード</button>\n                ${btn_comp_pdf}\n              </div>\n            </td>\n        </tr>\n    </table>`;\n}\n\nmsg.payload = html_output;\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
         "x": 570,
-        "y": 480,
+        "y": 520,
         "wires": [
             [
                 "a9083a1706acd9bf"
@@ -24018,7 +24018,7 @@
         "finalize": "",
         "libs": [],
         "x": 440,
-        "y": 360,
+        "y": 400,
         "wires": [
             [
                 "eeefc685674b13cb"
@@ -24032,7 +24032,7 @@
         "mydb": "9b11df79c388d0b6",
         "name": "",
         "x": 590,
-        "y": 320,
+        "y": 360,
         "wires": [
             [
                 "http_response"
@@ -24046,7 +24046,7 @@
         "mydb": "9b11df79c388d0b6",
         "name": "",
         "x": 590,
-        "y": 360,
+        "y": 400,
         "wires": [
             [
                 "9383685b5d2bc940"
@@ -24060,7 +24060,7 @@
         "name": "",
         "statusCode": "",
         "x": 730,
-        "y": 360,
+        "y": 400,
         "wires": []
     },
     {
@@ -24075,7 +24075,7 @@
         "finalize": "",
         "libs": [],
         "x": 540,
-        "y": 400,
+        "y": 440,
         "wires": [
             [
                 "7c85a333bae8ab95"
@@ -24087,12 +24087,12 @@
         "type": "http in",
         "z": "b1bc797994f72646",
         "name": "",
-        "url": "/api/mistake_list",
+        "url": "/mistake_list",
         "method": "get",
         "upload": false,
         "swaggerDoc": "",
-        "x": 300,
-        "y": 400,
+        "x": 280,
+        "y": 440,
         "wires": [
             [
                 "a04543a144e5a4fb"
@@ -24106,7 +24106,7 @@
         "mydb": "9b11df79c388d0b6",
         "name": "",
         "x": 590,
-        "y": 440,
+        "y": 480,
         "wires": [
             [
                 "2c0506647769d373"
@@ -24121,7 +24121,7 @@
         "statusCode": "",
         "headers": {},
         "x": 730,
-        "y": 640,
+        "y": 680,
         "wires": []
     },
     {
@@ -24136,7 +24136,7 @@
         "finalize": "",
         "libs": [],
         "x": 430,
-        "y": 640,
+        "y": 680,
         "wires": [
             [
                 "664d2547532d1e8e"
@@ -24147,13 +24147,13 @@
         "id": "8d380561983b442e",
         "type": "http in",
         "z": "b1bc797994f72646",
-        "name": "Insert Mistake",
+        "name": "",
         "url": "/insert-mistake",
-        "method": "post",
+        "method": "get",
         "upload": true,
         "swaggerDoc": "",
-        "x": 270,
-        "y": 520,
+        "x": 290,
+        "y": 560,
         "wires": [
             [
                 "8a0d9c18af1fb148"
@@ -24171,8 +24171,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 520,
-        "y": 520,
+        "x": 560,
+        "y": 560,
         "wires": [
             [
                 "a6d0bd32853fe205"
@@ -24186,7 +24186,7 @@
         "mydb": "9b11df79c388d0b6",
         "name": "",
         "x": 590,
-        "y": 560,
+        "y": 600,
         "wires": [
             [
                 "69c8fc6204890a6d"
@@ -24205,7 +24205,7 @@
         "finalize": "",
         "libs": [],
         "x": 420,
-        "y": 600,
+        "y": 640,
         "wires": [
             [
                 "282085dc75fd9dda"
@@ -24219,7 +24219,7 @@
         "mydb": "9b11df79c388d0b6",
         "name": "",
         "x": 590,
-        "y": 600,
+        "y": 640,
         "wires": [
             [
                 "0940b3f127a7db71"
@@ -24238,7 +24238,7 @@
         "template": "<div class=\"modal fade\" id=\"staticBackdrop2\" data-bs-backdrop=\"static\" data-bs-keyboard=\"false\" tabindex=\"-1\" aria-labelledby=\"staticBackdropLabel2\" aria-hidden=\"true\">\n  <div class=\"modal-dialog modal-xl\">\n    <div class=\"modal-content\">\n      <div class=\"modal-header\">\n        <h1 class=\"modal-title fs-5\" id=\"staticBackdropLabel2\" class=\"btn btn-secondary\" data-bs-toggle=\"tooltip\" data-bs-placement=\"top\" title=\"発行日・回答期限・顧客・発見部門・原因部門を絞って検索可能です。\">絞り込み検索</h1>\n            <button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"modal\" aria-label=\"Close\"></button>\n          </div>\n\n          <div class=\"modal-body\">\n\n            <form action mehod=\"post\" enctype=\"multipart/form-data\" id=\"mistakeSearchForm\">\n\n              <table id=\"searchTable_form\">\n\n                <tbody>\n\n                  <!-- 種別と担当者　-->\n                  <tr>\n                    <th width=\"15%\">種別</th>\n                    <td class=\"relative\">\n                      <select name=\"mt_type\" id=\"s_mt_type\">\n                        <option value=\"\">全表示</option>\n                        <option value=\"不適合\">不適合</option>\n                        <option value=\"クレーム\">クレーム</option>\n                        <option value=\"是正\">是正</option>\n                        <option value=\"顧客\">顧客</option>\n                      </select>\n                    </td>\n                    <td colspan=\"2\"></td>\n                  </tr>\n\n                  <!-- 発行日と回答期限　-->\n                  <tr>\n                    <th width=\"15%\">発行日</th>\n                    <td class=\"relative\">\n                      <input type=\"date\" name=\"mt_date\" id=\"s_mt_date\">\n                    </td>\n                    <th width=\"15%\">回答期限</th>\n                    <td class=\"relative\">\n                      <input type=\"date\" name=\"mt_answer_date\" id=\"s_mt_answer_date\">\n                    </td>\n                  </tr>\n                  <!-- 顧客名と発見部門　-->\n                  <tr>\n                    <th>顧客名</th>\n                    <td class=\"relative\">\n                      <select name=\"mt_client\" id=\"s_mt_client\">\n                        <option value=\"\"></option>\n                    </select>\n                    </td>\n                    <th>発見部門</th>\n                    <td class=\"relative\">\n                      <select name=\"mt_discovery_unit\" id=\"s_mt_discovery_unit\">\n                        <option value=\"\"></option>\n                      </select>\n                    </td>\n                  </tr>\n                  <!-- 原因部門と原因工程　-->\n                  <tr>\n                    <th>原因部門</th>\n                    <td class=\"relative\">\n                      <select name=\"mt_source_unit\" id=\"s_mt_source_unit\">\n                        <option value=\"\"></option>\n                      </select>\n                    </td>\n                    <th>原因工程</th>\n                    <td class=\"relative\">\n                      <select name=\"mt_source_process\" id=\"s_mt_source_process\">\n                        <option value=\"\"></option>\n                        <option value=\"抜き（NC）\">抜き（NC）</option>\n                        <option value=\"抜き（プレス）\">抜き（プレス）</option>\n                        <option value=\"曲げ\">曲げ</option>\n                        <option value=\"切断\">切断</option>\n                        <option value=\"バリ取り\">バリ取り</option>\n                        <option value=\"溶接\">溶接</option>\n                        <option value=\"組立\">組立</option>\n                        <option value=\"セット\">セット</option>\n                        <option value=\"梱包\">梱包</option>\n                        <option value=\"リフト操作\">リフト操作</option>\n                        <option value=\"検査\">検査</option>\n                        <option value=\"その他\">その他</option>\n                      </select>\n                    </td>\n                  </tr>\n\n                </tbody>  \n\n              </table>\n\n            </form>\n\n          </div>\n\n          <div class=\"modal-footer\">\n            <button type=\"button\" class=\"btn btn-secondary\" data-bs-dismiss=\"modal\" id=\"modal-close-button2\">Close</button>\n            <button type=\"button\" class=\"btn btn-primary\" id=\"search\">検索</button>\n\n          </div>\n\n        </div> \n\n      </div>\n",
         "output": "str",
         "x": 570,
-        "y": 220,
+        "y": 260,
         "wires": [
             [
                 "f668d4af165b3aea"
@@ -24252,7 +24252,7 @@
         "name": "searchModal",
         "links": [],
         "x": 465,
-        "y": 220,
+        "y": 260,
         "wires": [
             [
                 "dd7aa7afc7b60d2d"
@@ -24267,7 +24267,7 @@
         "mode": "return",
         "links": [],
         "x": 675,
-        "y": 220,
+        "y": 260,
         "wires": []
     },
     {
@@ -24280,8 +24280,8 @@
         ],
         "linkType": "static",
         "timeout": "30",
-        "x": 670,
-        "y": 80,
+        "x": 270,
+        "y": 120,
         "wires": [
             [
                 "0b226933a10f6791"
@@ -24300,7 +24300,7 @@
         "template": "<div class=\"modal fade\" id=\"staticBackdrop\" data-bs-backdrop=\"static\" data-bs-keyboard=\"false\" tabindex=\"-1\" aria-labelledby=\"staticBackdropLabel\" aria-hidden=\"true\">\n  <div class=\"modal-dialog modal-xl\">\n    <div class=\"modal-content\">\n\n      <div class=\"modal-header\">\n        <h1 class=\"modal-title fs-5\" id=\"staticBackdropLabel\" class=\"btn btn-secondary\" data-bs-toggle=\"tooltip\" data-bs-placement=\"top\" title=\"毎年4/10日締め。各報告書よりも先にこちらへ入力し規格コードを発行してください（例→不適合：24-999）不適合関連マスター的な位置づけにしたいと思っています。\">不適合関連記入フォーム</h1>\n        <button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"modal\" aria-label=\"Close\"></button>\n      </div>\n\n      <div class=\"modal-body\">\n\n        <form action mehod=\"post\" enctype=\"multipart/form-data\" id=\"mistakeForm\">\n        <input type=\"hidden\" name=\"mistake_create\" value=\"1\">\n        <table id=\"table_form\">\n          <tbody>\n\n            <!-- 種別と担当者　-->\n            <tr>\n              <th width=\"15%\">種別</th>\n              <td class=\"relative\">\n                <select name=\"mt_type\" id=\"mt_type\">\n                  <option value=\"\">選択してください</option>\n                  <option value=\"不適合\">不適合</option>\n                  <option value=\"クレーム\">クレーム</option>\n                  <option value=\"是正\">是正</option>\n                  <option value=\"顧客\">顧客</option>\n                </select>\n                <span class=\"error_msg\" id=\"error_mt_type\"></span>\n              </td>\n              <th>担当者</th>\n              <td class=\"relative\">\n                <input type=\"text\" name=\"mt_manager\" id=\"mt_manager\">\n                <span class=\"error_msg\" id=\"error_mt_manager\"></span>\n              </td>\n            </tr>\n\n            <!-- 発行日と回答期限　-->\n            <tr>\n              <th width=\"15%\">発行日</th>\n              <td class=\"relative\">\n                <input type=\"date\" name=\"mt_date\" id=\"mt_date\">\n                <span class=\"error_msg\" id=\"error_mt_date\"></span>\n              </td>\n              <th width=\"15%\">回答期限</th>\n              <td class=\"relative\">\n                <input type=\"date\" name=\"mt_answer_date\" id=\"mt_answer_date\">\n                <span class=\"error_msg\" id=\"error_mt_answer_date\"></span>\n              </td>\n            </tr>\n              \n            <!-- 品番と品名　-->\n            <tr>\n              <th>品番</th>\n              <td class=\"relative\">\n                <input type=\"text\" name=\"mt_product_code\" id=\"mt_product_code\">\n                <span class=\"error_msg\" id=\"error_mt_product_code\"></span>\n              </td>\n              <th>品名</th>\n              <td class=\"relative\">\n                <input type=\"text\" name=\"mt_product_name\" id=\"mt_product_name\">\n                <span class=\"error_msg\" id=\"error_mt_product_name\"></span>\n              </td>\n            </tr>\n \n            <!-- 数量　-->\n            <tr>\n              <th>数量</th>\n              <td class=\"relative\">\n                <input type=\"number\" name=\"mt_pcs\" id=\"mt_pcs\">\n                <span class=\"error_msg\" id=\"error_mt_pcs\"></span>\n              </td>\n              <td colspan=\"2\"></td>\n            </tr>\n\n            <!-- 顧客名と発見部門　-->\n            <tr>\n              <th>顧客名</th>\n              <td class=\"relative\">\n                <select name=\"mt_client\" id=\"mt_client\">\n                  <option value=\"\">選択してください</option>\n                </select>\n                <span class=\"error_msg\" id=\"error_mt_client\"></span>\n              </td>\n              <th>発見部門</th>\n              <td class=\"relative\">\n                <select name=\"mt_discovery_unit\" id=\"mt_discovery_unit\">\n                  <option value=\"\">選択してください</option>\n                </select>\n                <span class=\"error_msg\" id=\"error_mt_discovery_unit\"></span>\n              </td>\n            </tr>\n\n            <!-- 原因部門と原因工程　-->\n            <tr>\n              <th>原因部門</th>\n              <td class=\"relative\">\n                <select name=\"mt_source_unit\" id=\"mt_source_unit\">\n                  <option value=\"\">選択してください</option>\n                </select>\n                <span class=\"error_msg\" id=\"error_mt_source_unit\"></span>\n              </td>\n              <th>原因工程</th>\n              <td class=\"relative\">\n                <select name=\"mt_source_process\" id=\"mt_source_process\">\n                  <option value=\"\">選択してください</option>\n                  <option value=\"抜き（NC）\">抜き（NC）</option>\n                  <option value=\"抜き（プレス）\">抜き（プレス）</option>\n                  <option value=\"曲げ\">曲げ</option>\n                  <option value=\"切断\">切断</option>\n                  <option value=\"バリ取り\">バリ取り</option>\n                  <option value=\"溶接\">溶接</option>\n                  <option value=\"組立\">組立</option>\n                  <option value=\"セット\">セット</option>\n                  <option value=\"梱包\">梱包</option>\n                  <option value=\"リフト操作\">リフト操作</option>\n                  <option value=\"検査\">検査</option>\n                  <option value=\"その他\">その他</option>\n                </select>\n                <span class=\"error_msg\" id=\"error_mt_source_process\"></span>\n              </td>\n            </tr>\n\n            <!-- 不具合内容　-->\n            <tr>\n              <th>不具合内容</th>\n              <td colspan=\"3\" class=\"relative\">\n                <textarea name=\"mt_content\" id=\"mt_content\"></textarea>\n                <span class=\"error_msg\" id=\"error_mt_content\"></span>\n              </td>\n            </tr>\n\n          </tbody>  \n        </table>\n        </form>\n      </div>\n\n      <div class=\"modal-footer\">\n        <button type=\"button\" class=\"btn btn-secondary\" data-bs-dismiss=\"modal\" id=\"modal-close-button\">Close</button>\n        <button type=\"button\" class=\"btn btn-primary\" id=\"new\">登録</button>\n      </div>\n\n    </div> \n  </div>      \n</div>",
         "output": "str",
         "x": 570,
-        "y": 180,
+        "y": 220,
         "wires": [
             [
                 "c87fe19af80b37f2"
@@ -24314,7 +24314,7 @@
         "name": "formModal",
         "links": [],
         "x": 465,
-        "y": 180,
+        "y": 220,
         "wires": [
             [
                 "6439901476000a14"
@@ -24329,7 +24329,7 @@
         "mode": "return",
         "links": [],
         "x": 675,
-        "y": 180,
+        "y": 220,
         "wires": []
     },
     {
@@ -24342,11 +24342,11 @@
         ],
         "linkType": "static",
         "timeout": "30",
-        "x": 830,
-        "y": 80,
+        "x": 430,
+        "y": 120,
         "wires": [
             [
-                "34599b13b446eba5"
+                "bcb0d35a3bdc98dc"
             ]
         ]
     },
@@ -24362,9 +24362,520 @@
         "finalize": "",
         "libs": [],
         "x": 780,
-        "y": 400,
+        "y": 440,
         "wires": [
             []
+        ]
+    },
+    {
+        "id": "c9811279d045d064",
+        "type": "template",
+        "z": "b1bc797994f72646",
+        "name": "updateModal",
+        "field": "html.updateModal",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "<div class=\"modal fade\" id=\"staticBackdrop3\" data-bs-backdrop=\"static\" data-bs-keyboard=\"false\" tabindex=\"-1\" aria-labelledby=\"staticBackdropLabel3\" aria-hidden=\"true\">\n  <div class=\"modal-dialog modal-xl\">\n    <div class=\"modal-content\">\n\n      <div class=\"modal-header\">\n        <h1 class=\"modal-title fs-5\" id=\"staticBackdropLabel3\" class=\"btn btn-secondary\" data-bs-toggle=\"tooltip\" data-bs-placement=\"top\" title=\"規格コード・種別は訂正できません。\">訂正・追記フォーム</h1>\n        <button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"modal\" aria-label=\"Close\"></button>\n      </div>\n\n      <div class=\"modal-body\">\n\n        <form action mehod=\"post\" enctype=\"multipart/form-data\" id=\"mistakeUpdateForm\">\n        <input type=\"hidden\" name=\"mistake_update\" value=\"1\">\n         \n        <table id=\"table_form\">\n          <tbody>\n            <tr>\n              <th width=\"15%\">規格コード</th>\n              <td>\n                <input type=\"text\" id=\"u_mt_num_text\" name=\"mt_num_text\" value=\"\" disabled>\n              </td>\n              <th width=\"15%\">mt_num</th>\n              <td>\n                <input type=\"text\" id=\"u_mt_num\" name=\"mt_num\" value=\"\" disabled>\n              </td>  \n            </tr>\n            <tr>\n              <th>原因</th>\n              <td colspan=\"3\">\n                <textarea id=\"u_mt_content_source\" name=\"mt_content_source\"></textarea>\n              </td>\n            </tr>\n            <tr>\n              <th>対策</th>\n              <td colspan=\"3\">\n                <textarea id=\"u_mt_content_care\" name=\"mt_content_care\"></textarea>\n              </td>\n            </tr>\n\n\n            <!-- 種別と担当者　-->\n            <tr>\n              <th width=\"15%\">種別</th>\n              <td class=\"relative\">\n                <select name=\"mt_type\" id=\"u_mt_type\" disabled>\n                  <option value=\"\">選択してください</option>\n                  <option value=\"不適合\">不適合</option>\n                  <option value=\"クレーム\">クレーム</option>\n                  <option value=\"是正\">是正</option>\n                  <option value=\"顧客\">顧客</option>\n                </select>  \n              </td>\n              <th>担当者</th>\n              <td class=\"relative\">\n                <input type=\"text\" name=\"mt_manager\" id=\"u_mt_manager\">\n              </td>\n            </tr>\n\n            <!-- 発行日と回答期限　-->\n            <tr>\n              <th width=\"15%\">発行日</th>\n              <td class=\"relative\">\n                <input type=\"date\" name=\"mt_date\" id=\"u_mt_date\">\n              </td>\n              <th width=\"15%\">回答期限</th>\n              <td class=\"relative\">\n                <input type=\"date\" name=\"mt_answer_date\" id=\"u_mt_answer_date\">\n              </td>\n            </tr>\n              \n            <!-- 品番と品名　-->\n            <tr>\n              <th>品番</th>\n              <td class=\"relative\">\n                <input type=\"text\" name=\"mt_product_code\" id=\"u_mt_product_code\">\n              </td>\n              <th>品名</th>\n              <td class=\"relative\">\n                <input type=\"text\" name=\"mt_product_name\" id=\"u_mt_product_name\">\n              </td>\n            </tr>\n \n            <!-- 数量　-->\n            <tr>\n              <th>数量</th>\n              <td class=\"relative\">\n                <input type=\"number\" name=\"mt_pcs\" id=\"u_mt_pcs\">\n              </td>\n              <td colspan=\"2\"></td>\n            </tr>\n\n            <!-- 顧客名と発見部門　-->\n            <tr>\n              <th>顧客名</th>\n              <td class=\"relative\">\n                <select name=\"mt_client\" id=\"u_mt_client\">\n                  <option value=\"\">選択してください</option>\n                </select>\n              </td>\n              <th>発見部門</th>\n              <td class=\"relative\">\n                <select name=\"mt_discovery_unit\" id=\"u_mt_discovery_unit\">\n                  <option value=\"\">選択してください</option>\n                </select>\n              </td>\n            </tr>\n\n            <!-- 原因部門と原因工程　-->\n            <tr>\n              <th>原因部門</th>\n              <td class=\"relative\">\n                <select name=\"mt_source_unit\" id=\"u_mt_source_unit\">\n                  <option value=\"\">選択してください</option>\n                </select>\n              </td>\n              <th>原因工程</th>\n              <td class=\"relative\">\n                <select name=\"mt_source_process\" id=\"u_mt_source_process\">\n                  <option value=\"\">選択してください</option>\n                  <option value=\"抜き（NC）\">抜き（NC）</option>\n                  <option value=\"抜き（プレス）\">抜き（プレス）</option>\n                  <option value=\"曲げ\">曲げ</option>\n                  <option value=\"切断\">切断</option>\n                  <option value=\"バリ取り\">バリ取り</option>\n                  <option value=\"溶接\">溶接</option>\n                  <option value=\"組立\">組立</option>\n                  <option value=\"セット\">セット</option>\n                  <option value=\"梱包\">梱包</option>\n                  <option value=\"リフト操作\">リフト操作</option>\n                  <option value=\"検査\">検査</option>\n                  <option value=\"その他\">その他</option>\n                </select>\n              </td>\n            </tr>\n\n            <!-- 不具合内容　-->\n            <tr>\n              <th>不具合内容</th>\n              <td colspan=\"3\" class=\"relative\">\n                <textarea name=\"mt_content\" id=\"u_mt_content\"></textarea>\n              </td>\n            </tr>\n\n          </tbody>  \n        </table>\n        </form>\n      </div>\n\n      <div class=\"modal-footer\">\n        <button type=\"button\" class=\"btn btn-secondary\" data-bs-dismiss=\"modal\" id=\"modal-close-button3\">Close</button>\n        <button type=\"button\" class=\"btn btn-primary\" id=\"update\">訂正・追記</button>\n      </div>\n\n    </div> \n  </div>      \n</div>",
+        "output": "str",
+        "x": 570,
+        "y": 300,
+        "wires": [
+            [
+                "b260d187c083cafc"
+            ]
+        ]
+    },
+    {
+        "id": "bf321b8f9a8b4122",
+        "type": "link in",
+        "z": "b1bc797994f72646",
+        "name": "update",
+        "links": [],
+        "x": 465,
+        "y": 300,
+        "wires": [
+            [
+                "c9811279d045d064"
+            ]
+        ]
+    },
+    {
+        "id": "b260d187c083cafc",
+        "type": "link out",
+        "z": "b1bc797994f72646",
+        "name": "link out 16",
+        "mode": "return",
+        "links": [],
+        "x": 675,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "bcb0d35a3bdc98dc",
+        "type": "link call",
+        "z": "b1bc797994f72646",
+        "name": "updateModal",
+        "links": [
+            "bf321b8f9a8b4122"
+        ],
+        "linkType": "static",
+        "timeout": "30",
+        "x": 590,
+        "y": 120,
+        "wires": [
+            [
+                "88171b1e16b93a46"
+            ]
+        ]
+    },
+    {
+        "id": "2138cc3c152fa4ff",
+        "type": "http in",
+        "z": "b1bc797994f72646",
+        "name": "",
+        "url": "/update-mistake_list",
+        "method": "get",
+        "upload": true,
+        "swaggerDoc": "",
+        "x": 310,
+        "y": 720,
+        "wires": [
+            [
+                "3e29ebac038dcdd7"
+            ]
+        ]
+    },
+    {
+        "id": "3230e8e3963e54f3",
+        "type": "http response",
+        "z": "b1bc797994f72646",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 730,
+        "y": 760,
+        "wires": []
+    },
+    {
+        "id": "3e29ebac038dcdd7",
+        "type": "function",
+        "z": "b1bc797994f72646",
+        "name": "訂正・追加情報取得",
+        "func": "let mt_num = msg.payload.mt_num;\n\nlet sql = `\nSELECT *\nFROM mistake\nWHERE mt_display = 1\n`;\n\nlet conditions = [];\nlet params = {};\n\n// ソート条件\nif (mt_num) {\n    conditions.push(\"mt_num = :mt_num\");\n    params.mt_num = mt_num;\n}\n\n// WHERE句の条件を追加\nif (conditions.length > 0) {\n    sql += \" AND \" + conditions.join(\" AND \");\n}\n\n\nmsg.topic = sql;\nmsg.payload = params;\nreturn msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 540,
+        "y": 720,
+        "wires": [
+            [
+                "609d7af411666bbc"
+            ]
+        ]
+    },
+    {
+        "id": "609d7af411666bbc",
+        "type": "mysql",
+        "z": "b1bc797994f72646",
+        "mydb": "9b11df79c388d0b6",
+        "name": "",
+        "x": 590,
+        "y": 760,
+        "wires": [
+            [
+                "3230e8e3963e54f3"
+            ]
+        ]
+    },
+    {
+        "id": "3f7ffb482866e7a0",
+        "type": "function",
+        "z": "b1bc797994f72646",
+        "name": "UPDATE mistake",
+        "func": "msg.topic = `\n    UPDATE mistake\n    SET \n        mt_manager = :mt_manager,\n        mt_date = :mt_date,\n        mt_answer_date = :mt_answer_date,\n        mt_product_code = :mt_product_code,\n        mt_product_name = :mt_product_name,\n        mt_client = :mt_client,\n        mt_discovery_unit = :mt_discovery_unit,\n        mt_source_unit = :mt_source_unit,\n        mt_source_process = :mt_source_process,\n        mt_pcs = :mt_pcs,\n        mt_content = :mt_content,\n        mt_content_source = :mt_content_source,\n        mt_content_care = :mt_content_care,\n        mt_updated = :mt_updated\n    WHERE mt_num = :mt_num\n`;\n\nmsg.payload = {\n    mt_manager: msg.payload.mt_manager,\n    mt_date: msg.payload.mt_date,\n    mt_answer_date: msg.payload.mt_answer_date,\n    mt_product_code: msg.payload.mt_product_code,\n    mt_product_name: msg.payload.mt_product_name,\n    mt_client: msg.payload.mt_client,\n    mt_discovery_unit: msg.payload.mt_discovery_unit,\n    mt_source_unit: msg.payload.mt_source_unit,\n    mt_source_process: msg.payload.mt_source_process,\n    mt_pcs: parseInt(msg.payload.mt_pcs),\n    mt_content: msg.payload.mt_content,\n    mt_content_source: msg.payload.mt_content_source,\n    mt_content_care: msg.payload.mt_content_care,\n    mt_updated: new Date().toISOString().slice(0, 19).replace('T', ' '), // 現在のタイムスタンプ\n    mt_num: parseInt(msg.payload.mt_num)\n};\n\nreturn msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 530,
+        "y": 820,
+        "wires": [
+            [
+                "7f7e248aee083383"
+            ]
+        ]
+    },
+    {
+        "id": "6980863c5ea56c45",
+        "type": "http in",
+        "z": "b1bc797994f72646",
+        "name": "",
+        "url": "/update-mistake",
+        "method": "post",
+        "upload": true,
+        "swaggerDoc": "",
+        "x": 300,
+        "y": 820,
+        "wires": [
+            [
+                "3f7ffb482866e7a0"
+            ]
+        ]
+    },
+    {
+        "id": "7f7e248aee083383",
+        "type": "mysql",
+        "z": "b1bc797994f72646",
+        "mydb": "9b11df79c388d0b6",
+        "name": "",
+        "x": 590,
+        "y": 860,
+        "wires": [
+            [
+                "51fd2fe4d92fcb0f"
+            ]
+        ]
+    },
+    {
+        "id": "51fd2fe4d92fcb0f",
+        "type": "http response",
+        "z": "b1bc797994f72646",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 730,
+        "y": 860,
+        "wires": []
+    },
+    {
+        "id": "http-in-node",
+        "type": "http in",
+        "z": "b1bc797994f72646",
+        "name": "File Upload",
+        "url": "/upload",
+        "method": "post",
+        "upload": true,
+        "swaggerDoc": "",
+        "x": 270,
+        "y": 1020,
+        "wires": [
+            [
+                "file-node"
+            ]
+        ]
+    },
+    {
+        "id": "file-node",
+        "type": "file",
+        "z": "b1bc797994f72646",
+        "name": "Save File",
+        "filename": "/path/to/save",
+        "filenameType": "str",
+        "appendNewline": false,
+        "createDir": true,
+        "overwriteFile": "true",
+        "encoding": "binary",
+        "x": 470,
+        "y": 1020,
+        "wires": [
+            [
+                "function-node"
+            ]
+        ]
+    },
+    {
+        "id": "function-node",
+        "type": "function",
+        "z": "b1bc797994f72646",
+        "name": "Validate Extension",
+        "func": "const allowedExt = ['jpg', 'png', 'jpeg', 'pdf', 'mp4'];\nconst fileExt = msg.req.files[0].filename.split('.').pop().toLowerCase();\n\nif (!allowedExt.includes(fileExt)) {\n    msg.payload = { error: \"Unsupported file type\" };\n    return [null, msg];\n}\nmsg.filePath = \"/path/to/save/\" + msg.req.files[0].filename;\nreturn [msg, null];",
+        "outputs": 2,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 670,
+        "y": 1020,
+        "wires": [
+            [],
+            [
+                "http-response-node"
+            ]
+        ]
+    },
+    {
+        "id": "http-response-node",
+        "type": "http response",
+        "z": "b1bc797994f72646",
+        "name": "Response",
+        "x": 1070,
+        "y": 1020,
+        "wires": []
+    },
+    {
+        "id": "b3eac21bd50b3557",
+        "type": "template",
+        "z": "b1bc797994f72646",
+        "name": "imgModal",
+        "field": "html.imgModal",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "<div class=\"modal fade\" id=\"staticBackdrop4\" data-bs-backdrop=\"static\" data-bs-keyboard=\"false\" tabindex=\"-1\" aria-labelledby=\"staticBackdropLabel4\" aria-hidden=\"true\">\n  <div class=\"modal-dialog modal-xl\">\n    <div class=\"modal-content\">\n\n      <div class=\"modal-header\">\n        <h1 class=\"modal-title fs-5\" id=\"staticBackdropLabel4\" class=\"btn btn-secondary\" data-bs-toggle=\"tooltip\" data-bs-placement=\"top\" title=\"ファイルアップロードは、ひとつごと可能です。上書きされるため図面等は画像形式（JPG・PNG）でアップロードしてください。\">画像(JPG・PNG)、PDFアップロード</h1>\n        <button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"modal\" aria-label=\"Close\"></button>\n      </div>\n\n      <div class=\"modal-body\">\n\n        <form action=\"/upload\" method=\"post\" enctype=\"multipart/form-data\">\n        <input type=\"hidden\" name=\"file_create\" value=\"1\" />\n        <input type=\"hidden\" id=\"i_mt_num\" name=\"mt_num\" value=\"\"/>\n        <div id=\"up_file_wall\">\n          <input type=\"file\" name=\"up_list[]\" id=\"up_file\" multiple required>\n          <br><span class=\"error_msg\" id=\"error_message\" style=\"display:none;\">※添付ファイルはJPG・PNG・PDF・mp4形式としてください。</span>\n        </div>\n        </form>        \n      </div>\n\n      <div class=\"modal-footer\">\n        <button type=\"button\" class=\"btn btn-secondary\" data-bs-dismiss=\"modal\" id=\"modal-close-button3\">Close</button>\n        <button type=\"button\" class=\"btn btn-primary\" id=\"update_img\">アップロード</button>\n      </div>\n\n    </div> \n  </div>      \n</div>",
+        "output": "str",
+        "x": 820,
+        "y": 220,
+        "wires": [
+            [
+                "4cfd69bea34acebb"
+            ]
+        ]
+    },
+    {
+        "id": "http-in-upload",
+        "type": "http in",
+        "z": "b1bc797994f72646",
+        "name": "File Upload",
+        "url": "/upload",
+        "method": "post",
+        "upload": true,
+        "swaggerDoc": "",
+        "x": 270,
+        "y": 1120,
+        "wires": [
+            [
+                "function-validate"
+            ]
+        ]
+    },
+    {
+        "id": "function-validate",
+        "type": "function",
+        "z": "b1bc797994f72646",
+        "name": "Validate File",
+        "func": "const allowedExt = ['jpg', 'png', 'pdf'];\nconst files = msg.req.files || [];\nlet errors = [];\n\nfiles.forEach(file => {\n    const ext = file.filename.split('.').pop().toLowerCase();\n    if (!allowedExt.includes(ext)) {\n        errors.push(`${file.filename} has an unsupported extension.`);\n    }\n});\n\nif (errors.length > 0) {\n    msg.payload = { errors };\n    msg.statusCode = 400;\n    return [null, msg];\n}\n\nmsg.payload = files.map(file => ({\n    filename: file.filename,\n    path: file.path\n}));\nreturn [msg, null];",
+        "outputs": 2,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 470,
+        "y": 1120,
+        "wires": [
+            [],
+            [
+                "http-response-error"
+            ]
+        ]
+    },
+    {
+        "id": "http-response-success",
+        "type": "http response",
+        "z": "b1bc797994f72646",
+        "name": "Success Response",
+        "statusCode": "",
+        "headers": {},
+        "x": 870,
+        "y": 1120,
+        "wires": []
+    },
+    {
+        "id": "http-response-error",
+        "type": "http response",
+        "z": "b1bc797994f72646",
+        "name": "Error Response",
+        "statusCode": "400",
+        "headers": {},
+        "x": 670,
+        "y": 1220,
+        "wires": []
+    },
+    {
+        "id": "1486891038ce3d37",
+        "type": "link in",
+        "z": "b1bc797994f72646",
+        "name": "imgModal",
+        "links": [],
+        "x": 725,
+        "y": 220,
+        "wires": [
+            [
+                "b3eac21bd50b3557"
+            ]
+        ]
+    },
+    {
+        "id": "4cfd69bea34acebb",
+        "type": "link out",
+        "z": "b1bc797994f72646",
+        "name": "link out 17",
+        "mode": "return",
+        "links": [],
+        "x": 915,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "88171b1e16b93a46",
+        "type": "link call",
+        "z": "b1bc797994f72646",
+        "name": "imgModal",
+        "links": [
+            "1486891038ce3d37"
+        ],
+        "linkType": "static",
+        "timeout": "30",
+        "x": 740,
+        "y": 120,
+        "wires": [
+            [
+                "34599b13b446eba5"
+            ]
+        ]
+    },
+    {
+        "id": "144b05983f5c4154",
+        "type": "http in",
+        "z": "b1bc797994f72646",
+        "name": "",
+        "url": "/upload-img",
+        "method": "post",
+        "upload": true,
+        "swaggerDoc": "",
+        "x": 290,
+        "y": 920,
+        "wires": [
+            [
+                "5bc41f6abee25db9"
+            ]
+        ]
+    },
+    {
+        "id": "ee37127eb8bf3d3b",
+        "type": "http response",
+        "z": "b1bc797994f72646",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 770,
+        "y": 940,
+        "wires": []
+    },
+    {
+        "id": "2487ce1b2c5fdf3a",
+        "type": "function",
+        "z": "b1bc797994f72646",
+        "name": "function 6",
+        "func": "if (msg.dbUpdate.ext === '.pdf'){\n\n    msg.topic = `UPDATE mistake\n\t\t\t\tSET mt_comp = 1\n\t\t\t\tWHERE mt_num = : mt_num\n\t\t\t\tLIMIT 1\n    `\n\n\tmsg.payload = [msg.dbUpdate.mt_num]\n} else if (['.jpg', '.jpeg', '.png'].includes(msg.dbUpdate.ext)){\n\n\tmsg.topic = `UPDATE mistake\n\t\t\t\t\tSET mt_img = :mt_img\n\t\t\t\t\tWHERE mt_num = :mt_num\n    `\n\tmsg.payload = [msg.dbUpdate.mt_img,\n\t\tmsg.dbUpdate.mt_num\n\t]\n}\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 920,
+        "y": 860,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "8fd0b743e7dfb5c4",
+        "type": "mysql",
+        "z": "b1bc797994f72646",
+        "mydb": "9b11df79c388d0b6",
+        "name": "",
+        "x": 630,
+        "y": 920,
+        "wires": [
+            [
+                "ee37127eb8bf3d3b"
+            ]
+        ]
+    },
+    {
+        "id": "8a8a0fbae78bdc4b",
+        "type": "switch",
+        "z": "b1bc797994f72646",
+        "name": "",
+        "property": "topic",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "nnull"
+            },
+            {
+                "t": "null"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 430,
+        "y": 980,
+        "wires": [
+            [
+                "8fd0b743e7dfb5c4"
+            ],
+            [
+                "ee37127eb8bf3d3b"
+            ]
+        ]
+    },
+    {
+        "id": "914608687dce9744",
+        "type": "debug",
+        "z": "b1bc797994f72646",
+        "name": "debug 4",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 680,
+        "y": 980,
+        "wires": []
+    },
+    {
+        "id": "d0b164c1038ccb03",
+        "type": "function",
+        "z": "b1bc797994f72646",
+        "name": "function 7",
+        "func": "const fs = global.get('fs');\nconst path = global.get('path');\nconst basePath = global.get('basePath');\nconst sharp = global.get('sharp');\n\nlet mt_num = msg.req.body.mt_num; // 動的に送信された値\nlet files = msg.req.files; // アップロードされたファイル\nlet absoluteImgPath = path.join(basePath, `/node-red-static/img_mistake/${mt_num}/`);\n\n// フォルダ作成\nif (!fs.existsSync(absoluteImgPath)) {\n    fs.mkdirSync(absoluteImgPath, { recursive: true });\n}\n\n// アップロード処理結果\nlet results = [];\nlet dbUpdate = null;\n\nfiles.forEach(async file => {\n    let ext = path.extname(file.originalname).toLowerCase();\n    if (!['.jpg', '.jpeg', '.png', '.pdf', '.mp4'].includes(ext)) {\n        node.error(`Unsupported file type: ${ext}`);\n        results.push({ success: false, error: `Unsupported file type: ${ext}`, file: file.originalname });\n        return;\n    }\n\n    let baseFileName = path.basename(file.originalname, ext); // 拡張子を除いた元ファイル名\n    let savePath = path.join(absoluteImgPath, `${baseFileName}${ext}`);\n    let thumbnailPath = path.join(absoluteImgPath, `${baseFileName}_tn${ext}`);\n\n    if (ext === '.pdf') {\n        // PDFの場合\n        fs.writeFileSync(savePath, Buffer.from(file.buffer));\n        results.push({ file: file.originalname, type: 'pdf', status: 'uploaded' });\n\n        // 必要に応じてDB更新のコードを追加\n        msg.dbUpdate = { ext, mt_num };\n        return msg;\n\n    } else if (ext === '.mp4') {\n        // 動画の場合\n        fs.writeFileSync(savePath, Buffer.from(file.buffer));\n        results.push({ file: file.originalname, type: 'video', status: 'uploaded' });\n\n        // 動画はそのままレスポンスに返す\n        msg.payload = { success: true, results };\n        return msg;\n\n    } else if (['.jpg', '.jpeg', '.png'].includes(ext)) {\n        // 画像の場合\n        try {\n            const image = sharp(file.buffer);\n            const metadata = await image.metadata();\n\n            // サムネイルサイズ計算\n            let thumbnailWidth = metadata.width < metadata.height ? 200 : 400;\n            let thumbnailHeight = Math.round(metadata.height * (thumbnailWidth / metadata.width));\n\n            // 画像保存\n            await image.toFile(savePath); // 元ファイル名で原寸大を保存\n            await image.resize(thumbnailWidth, thumbnailHeight).toFile(thumbnailPath); // サムネイル保存\n\n            results.push({\n                file: file.originalname,\n                type: 'image',\n                status: 'uploaded',\n                savedAs: `${baseFileName}${ext}`,\n                thumbnail: `${baseFileName}_tn${ext}`\n            });\n\n            // DBの更新（最初の画像だけ処理）\n            msg.dbUpdate = { ext, mt_num, mt_img: baseFileName };\n            return msg;\n            \n\n        } catch (error) {\n            node.error(`Error processing image: ${error.message}`);\n            results.push({ file: file.originalname, type: 'image', status: 'error', error: error.message });\n        }\n    } else {\n        // サポートされていないファイル\n        node.error(`Unsupported file type: ${ext}`);\n        results.push({ file: file.originalname, type: 'unsupported', status: 'error' });\n    }\n\n});\n\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 880,
+        "y": 940,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "5bc41f6abee25db9",
+        "type": "function",
+        "z": "b1bc797994f72646",
+        "name": "function 5",
+        "func": "const fs = global.get('fs');\nconst path = global.get('path');\nconst basePath = global.get('basePath');\nconst sharp = global.get('sharp')\n\nlet mt_num = msg.req.body.mt_num; // 動的に送信された値\nlet files = msg.req.files; // アップロードされたファイル\nlet absoluteImgPath = path.join(basePath, `/node-red-static/img_mistake/${mt_num}/`);\n//const saveDir = `/node-red-static/img_mistake/${mt_num}/`;\n\n\n// フォルダ作成\nif (!fs.existsSync(absoluteImgPath)) {\n    fs.mkdirSync(absoluteImgPath, { recursive: true });\n}\n\n// アップロード処理結果\nlet results = [];\nlet dbUpdate = [];\n\nfiles.forEach(async (file, index)  => {\n    let ext = path.extname(file.originalname).toLowerCase();\n    if (!['.jpg', '.jpeg', '.png', '.pdf', '.mp4'].includes(ext)) {\n        node.error(`Unsupported file type: ${ext}`);\n        msg.payload = { success: false, error: `Unsupported file type: ${ext}` };\n        return;\n    }\n\n    let baseFileName = path.basename(file.originalname, ext); // 拡張子を除いた元ファイル名\n\n    let savePath = path.join(absoluteImgPath,`${baseFileName}${ext}`);\n    let thumbnailPath = path.join(absoluteImgPath, `${baseFileName}_tn${ext}`);\n\n    if (ext === '.pdf') {\n        // PDFの場合\n        fs.writeFileSync(savePath, Buffer.from(file.buffer));\n        results.push({ file: file.originalname, type: 'pdf', status: 'uploaded' });\n\n        // 必要に応じてDB更新のコードを追加\n        dbUpdate.push ({ext, mt_num});\n\n    } else if (ext === '.mp4') {\n        // 動画の場合\n        fs.writeFileSync(savePath, Buffer.from(file.buffer));\n        results.push({ file: file.originalname, type: 'video', status: 'uploaded' });\n\n    } else if (['.jpg', '.jpeg', '.png'].includes(ext)) {\n        // 画像の場合\n        try {\n            const image = sharp(file.buffer);\n            const metadata = await image.metadata();\n\n            // サムネイルサイズ計算\n            let thumbnailWidth = metadata.width < metadata.height ? 200 : 400;\n            let thumbnailHeight = Math.round(metadata.height * (thumbnailWidth / metadata.width));\n\n            // 画像保存\n            await image.toFile(savePath); // 元ファイル名で原寸大を保存\n            await image.resize(thumbnailWidth, thumbnailHeight).toFile(thumbnailPath); // サムネイル保存\n\n            results.push({\n                file: file.originalname,\n                type: 'image',\n                status: 'uploaded',\n                savedAs: `${baseFileName}${ext}`,\n                thumbnail: `${baseFileName}_tn${ext}`\n            });\n\n            // DBの更新（最初の画像だけ処理）\n            if (index === 0) {\n                dbUpdate.push ({ ext, mt_num, mt_img: baseFileName });\n            }\n        } catch (error) {\n            node.error(`Error processing image: ${error.message}`);\n            results.push({ file: file.originalname, type: 'image', status: 'error', error: error.message });\n        }\n    } else {\n        // サポートされていないファイル\n        node.error(`Unsupported file type: ${ext}`);\n        results.push({ file: file.originalname, type: 'unsupported', status: 'error' });\n    }\n});\n\n// 処理結果をレスポンスに設定\nmsg.payload = {\n    success: results.every(r => r.status === 'uploaded'),\n    results,\n    dbUpdate\n};\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 460,
+        "y": 920,
+        "wires": [
+            [
+                "914608687dce9744"
+            ]
         ]
     }
 ]
