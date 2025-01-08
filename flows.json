@@ -25896,7 +25896,7 @@
         "z": "0861308f236ba455",
         "mydb": "9b11df79c388d0b6",
         "name": "",
-        "x": 630,
+        "x": 670,
         "y": 200,
         "wires": [
             [
@@ -26376,6 +26376,91 @@
         "client": "",
         "x": 1390,
         "y": 240,
+        "wires": []
+    },
+    {
+        "id": "inject-node-id",
+        "type": "inject",
+        "z": "0861308f236ba455",
+        "name": "Inject Parameters",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": "",
+        "topic": "",
+        "payload": "{\"sort\": \"type1\", \"mt_date\": \"2024-12-27\", \"mt_client\": \"ClientA\"}",
+        "payloadType": "json",
+        "x": 940,
+        "y": 400,
+        "wires": [
+            [
+                "function-node-id"
+            ]
+        ]
+    },
+    {
+        "id": "function-node-id",
+        "type": "function",
+        "z": "0861308f236ba455",
+        "name": "Prepare API Request",
+        "func": "msg.method = \"GET\";\nmsg.url = \"http://192.168.0.93:5000/mistake_list\";\nmsg.params = msg.payload;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1140,
+        "y": 400,
+        "wires": [
+            [
+                "http-request-node-id"
+            ]
+        ]
+    },
+    {
+        "id": "http-request-node-id",
+        "type": "http request",
+        "z": "0861308f236ba455",
+        "name": "API Request",
+        "method": "POST",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 1340,
+        "y": 400,
+        "wires": [
+            [
+                "debug-node-id"
+            ]
+        ]
+    },
+    {
+        "id": "debug-node-id",
+        "type": "debug",
+        "z": "0861308f236ba455",
+        "name": "API Response",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1540,
+        "y": 400,
         "wires": []
     }
 ]
